@@ -1,12 +1,12 @@
 'use strict';
 
 /* jshint -W098 */
-angular.module('mean.rrhh').controller('BuscarSucursalController', function($scope, $state){
+angular.module('mean.rrhh').controller('BuscarSucursalController', function($scope, $state, SGSucursal){
 
     $scope.filterOptions = {
         filterText: undefined,
-        offset: 0,
-        limit: 10
+        firstResult: 0,
+        maxResults: 10
     };
 
     $scope.gridOptions = {
@@ -27,11 +27,11 @@ angular.module('mean.rrhh').controller('BuscarSucursalController', function($sco
     };
 
     $scope.search = function(){
-        $scope.gridOptions.data = Sucursal.$search($scope.filterOptions).$object;
+        $scope.gridOptions.data = SGSucursal.$search($scope.filterOptions).$object;
     };
 
     $scope.nuevo = function(){
-        $state.go('^.crearSucursal.datosPrincipales');
+        $state.go('^.crearSucursal');
     };
 
     $scope.gridActions = {

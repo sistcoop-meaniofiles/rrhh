@@ -30,6 +30,11 @@ angular.module('mean.rrhh').config(['$stateProvider',
             url: '/buscarSucursal',
             templateUrl: 'rrhh/views/sucursal/form-buscar-sucursal.html',
             controller: 'BuscarSucursalController'
+        })
+        .state('rrhh.app.organizacion.crearSucursal', {
+            url: '/crearSucursal',
+            templateUrl: 'rrhh/views/sucursal/form-crear-sucursal.html',
+            controller: 'CrearSucursalController'
         });
   }
 ]);
