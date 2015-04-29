@@ -1,0 +1,13 @@
+<!-- menu -->
+<div class="app-aside hidden-xs bg-black" data-ng-include="'/rrhh/views/aside.html'" data-ng-controller="RrhhSidebarController"></div>
+<!-- / menu -->
+
+<!-- content -->
+<div class="app-content">
+    <div ui-butterbar></div>
+    <a href class="off-screen-toggle hide" ui-toggle-class="off-screen" data-target=".app-aside" ></a>
+    <div class="app-content-body fade-in-up" data-ui-view>
+
+    </div>
+</div>
+<!-- /content -->
