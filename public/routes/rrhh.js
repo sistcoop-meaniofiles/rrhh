@@ -86,6 +86,37 @@ angular.module('mean.rrhh').config(['$stateProvider',
             url: '/datosPrincipales',
             templateUrl: 'rrhh/views/agencia/form-editar-agencia-datosPrincipales.html',
             controller: 'AgenciaDatosPrincipalesController'
+        })
+
+        .state('rrhh.app.rrhh.buscarTrabajadores', {
+            url: '/buscarTrabajador',
+            templateUrl: 'rrhh/views/trabajador/form-buscar-trabajador.html',
+            controller: 'BuscarTrabajadorController'
+        })
+        .state('rrhh.app.rrhh.crearTrabajador', {
+            url: '/crearTrabajador',
+            templateUrl: 'rrhh/views/trabajador/form-crear-trabajador.html',
+            controller: 'CrearTrabajadorController'
+        })
+        .state('rrhh.app.rrhh.editarTrabajador', {
+            url: '/trabajador/:id',
+            templateUrl: 'rrhh/views/trabajador/form-editar-trabajador-resumen.html',
+            resolve: {
+                trabajador: function($state, $stateParams, SGTrabajador) {
+                    return SGTrabajador.$find($stateParams.id);
+                }
+            },
+            controller: 'EditarTrabajadorController'
+        })
+        .state('rrhh.app.rrhh.editarTrabajador.resumen', {
+            url: '/resumen',
+            templateUrl: 'rrhh/views/trabajador/form-editar-trabajador-resumen.html',
+            controller: 'TrabajadorResumenController'
+        })
+        .state('rrhh.app.rrhh.editarTrabajador.datosPrincipales', {
+            url: '/datosPrincipales',
+            templateUrl: 'rrhh/views/sucursal/form-editar-trabajador-datosPrincipales.html',
+            controller: 'TrabajadorDatosPrincipalesController'
         });
   }
 ]);
