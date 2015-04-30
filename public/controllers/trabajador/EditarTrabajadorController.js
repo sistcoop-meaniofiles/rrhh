@@ -21,7 +21,7 @@ angular.module('mean.rrhh').controller('EditarTrabajadorController', function($s
 
         $scope.view.loaded.persona = PersonaNatural.$findByTipoNumeroDocumento($scope.view.trabajador.tipoDocumento, $scope.view.trabajador.numeroDocumento).$object;
 
-        if(activeProfile.hasRole('ORGANIZACION', ['ADMIN'], 'OR')){
+        /*if(activeProfile.hasRole('ORGANIZACION', ['ADMIN'], 'OR')){
             Usuario.$roleMappings($scope.params.object.usuario).then(
                 function(response){
                     var rolesAvailable = activeProfile.getModule('ORGANIZACION').roles.available;
@@ -37,11 +37,11 @@ angular.module('mean.rrhh').controller('EditarTrabajadorController', function($s
                         $scope.view.loaded.userKeycloak.rolesAssigned = 'No tiene roles asignados.';
                     }
                 },
-                function error(error){
+                function error(err){
                     $scope.view.loaded.userKeycloak.rolesAssigned = 'Usuario no existe en Keycloak.';
                 }
             );
-        }
+        }*/
     };
     $scope.loadParams();
 
