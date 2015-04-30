@@ -1,28 +1,52 @@
-<div class="page-title full-width">
-    <div class="title-env">
-        <h1 class="title ng-binding">Crear sucursal</h1>
-        <p class="description ng-binding">Crea una sucursal para despues crear agencias.</p>
-    </div>
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">Crear sucursal</h1>
 </div>
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <h3 class="panel-title" ui-sref=".datosPrincipales">Ingrese los datos</h3>
-        <div class="panel-options">
-            <a href="" data-toggle="panel">
-                <span class="collapse-icon">–</span>
-                <span class="expand-icon">+</span>
-            </a>
-            <a href="" data-toggle="remove">
-                ×
-            </a>
-        </div>
-    </div>
-    <div class="panel-body">
-        <div class="row">
-            <div class="col-sm-12">
-                <form name="form" ng-submit="submit()" novalidate>
-                    <div ui-view></div>
-                </form>
+
+<div class="wrapper-md">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-sm-12">
+
+                    <form name="form" ng-submit="submit()" novalidate>
+
+                        <div>
+                            <h4><strong>Datos principales</strong></h4>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group" ng-class="{ 'has-error' : form.abreviatura.$invalid && (form.abreviatura.$touched || form.$submitted)}">
+                                        <label>Abreviatura</label>
+                                        <input type="text" name="abreviatura" ng-model="view.sucursal.abreviatura" ng-maxlength="30" class="form-control" autofocus required/>
+                                        <div ng-messages="form.abreviatura.$error" ng-if="form.abreviatura.$touched || form.$submitted">
+                                            <div class="has-error" ng-message="required">Ingrese abreviatura.</div>
+                                            <div class="has-error" ng-message="maxlength">Maximo 30 caracteres.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group" ng-class="{ 'has-error' : form.denominacion.$invalid && (form.denominacion.$touched || form.$submitted)}">
+                                        <label>Denominacion</label>
+                                        <input type="text" name="denominacion" ng-model="view.sucursal.denominacion" sg-denominacion-sucursal-validate ng-maxlength="60" class="form-control" required/>
+                                        <div ng-messages="form.denominacion.$error" ng-if="form.denominacion.$touched || form.$submitted">
+                                            <div class="has-error" ng-message="required">Ingrese denominacion.</div>
+                                            <div class="has-error" ng-message="maxlength">Maximo 60 caracteres.</div>
+                                            <div class="has-error" ng-message="disponible">Denominacion no disponible.</div>
+                                        </div>
+                                        <span ng-show="form.denominacion.$pending" us-spinner="spinnerConfig"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <p>
+                                <button type="submit" class="btn btn-primary" ladda="control.block" data-style="expand-right">Guardar</button>
+                                <button type="button" class="btn btn-default" ui-sref="^.buscarSucursales">Cancelar</button>
+                            </p>
+                        </div>
+
+                    </form>
+
+                </div>
             </div>
         </div>
     </div>
