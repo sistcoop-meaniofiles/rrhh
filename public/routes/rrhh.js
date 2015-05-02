@@ -6,7 +6,7 @@ angular.module('mean.rrhh').config(['$stateProvider',
         .state('rrhh', {
           abstract: true,
           url: '/rrhh',
-          templateUrl: 'rrhh/views/tpls/layout/body.html'
+          templateUrl: 'rrhh/views/_body.html'
         })
         .state('rrhh.home', {
           url: '/home',

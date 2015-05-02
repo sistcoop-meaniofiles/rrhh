@@ -1,0 +1,40 @@
+<div class="content console-os">
+    <div class="wrap">
+
+
+        <div data-ng-controller="RrhhSidebarController" class="sidebar-left">
+            <nav class="navbar navbar-sidebar">
+                <div class="navbar-collapse navbar-collapse-2 collapse">
+
+                    <ul class="nav nav-sidenav">
+                        <li ui-sref-active-eq="active" data-ng-repeat="item in menuItems">
+                            <a class="ng-binding" style="font-size: 12px;">
+                                <span class="fa fa-sitemap fa-fw"></span> {{item.title}}
+                            </a>
+                            <div>
+                                <ul ui-sref-active="active" data-ng-repeat="subItem in item.menuItems" class="nav nav-sidenav-secondary">
+                                    <li>
+                                        <a ui-sref="{{subItem.link}}" style="font-size: 12px;">{{subItem.title}}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+
+                </div>
+            </nav>
+        </div>
+
+
+        <div class="container-main">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12" ui-view>
+                        contenido
+                        <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
