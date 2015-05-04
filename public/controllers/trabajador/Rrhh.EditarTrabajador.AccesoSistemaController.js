@@ -1,7 +1,8 @@
 'use strict';
 
 /* jshint -W098 */
-angular.module('mean.rrhh').controller('TrabajadorAccesoAlSistemaCtrl', function($scope, Usuario, Notifications, Dialog){
+angular.module('mean.rrhh').controller('Rrhh.EditarTrabajador.AccesoSistemaController', function(
+    $scope, toastr, SGDialog){
 
     $scope.combo = {
         usuario: undefined

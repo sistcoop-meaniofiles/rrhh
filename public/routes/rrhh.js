@@ -117,6 +117,11 @@ angular.module('mean.rrhh').config(['$stateProvider',
             url: '/datosPrincipales',
             templateUrl: 'rrhh/views/trabajador/form-editar-trabajador-datosPrincipales.html',
             controller: 'Rrhh.EditarTrabajador.DatosPrincipalesController'
+        })
+        .state('rrhh.app.rrhh.editarTrabajador.accesoSistema', {
+            url: '/accesoSistema',
+            templateUrl: 'rrhh/views/trabajador/form-editar-trabajador-accesoSistema.html',
+            controller: 'Rrhh.EditarTrabajador.AccesoSistemaController'
         });
   }
 ]);
