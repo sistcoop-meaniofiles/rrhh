@@ -1,7 +1,7 @@
 'use strict';
 
 /* jshint -W098 */
-angular.module('mean.rrhh').controller('AgenciaDatosPrincipalesController', function($scope, agencia, toastr){
+angular.module('mean.rrhh').controller('Rrhh.EditarAgencia.DatosPrincipalesController', function($scope, agencia, toastr){
 
     $scope.view = {
         agencia: agencia
@@ -17,7 +17,7 @@ angular.module('mean.rrhh').controller('AgenciaDatosPrincipalesController', func
 
             $scope.view.agencia.$save().then(
                 function(response){
-                    toastr.success('Agencia actualizada', 'Success');
+                    toastr.success('Agencia actualizada');
                 },
                 function error(err){
                     toastr.error(err.data.message, 'Error');

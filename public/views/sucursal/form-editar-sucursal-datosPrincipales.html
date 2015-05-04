@@ -3,12 +3,14 @@
     <h4><strong>Datos principales</strong></h4>
     <div class="row">
         <div class="col-sm-4">
-            <div class="form-group" ng-class="{ 'has-error' : form.abreviatura.$invalid && (form.abreviatura.$touched || form.$submitted)}">
+            <div class="form-group" ng-class="{ 'has-error' : form.abreviatura.$invalid && form.abreviatura.$dirty}">
                 <label>Abreviatura</label>
-                <input type="text" name="abreviatura" ng-model="view.sucursal.abreviatura" ng-maxlength="30" class="form-control" autofocus required/>
-                <div ng-messages="form.abreviatura.$error" ng-if="form.abreviatura.$touched || form.$submitted">
+                <input type="text" name="abreviatura" ng-model="view.sucursal.abreviatura" sg-abreviatura-sucursal-validate sg-exclude="view.sucursal" ng-maxlength="30" class="form-control" autofocus required/>
+                <div ng-messages="form.abreviatura.$error" ng-if="form.abreviatura.$dirty">
                     <div class="has-error" ng-message="required">Ingrese abreviatura.</div>
                     <div class="has-error" ng-message="maxlength">Maximo 30 caracteres.</div>
+                    <div class="has-error" ng-message="disponible">Abreviatura no disponible.</div>
+                    <span ng-show="form.denominacion.$pending" us-spinner="{radius:4,width:1,length: 2,top: '56%',left: '89.8%', className: 'spinner-xs'}"></span>
                 </div>
             </div>
         </div>

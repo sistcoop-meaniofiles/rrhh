@@ -1,7 +1,7 @@
 'use strict';
 
 /* jshint -W098 */
-angular.module('mean.rrhh').controller('BuscarAgenciaController', function($scope, $state, SGAgencia, SGSucursal){
+angular.module('mean.rrhh').controller('Rrhh.BuscarAgenciaController', function($scope, $state, SGAgencia, SGSucursal){
 
     $scope.combo = {
         sucursal: undefined

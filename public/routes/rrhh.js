@@ -60,12 +60,12 @@ angular.module('mean.rrhh').config(['$stateProvider',
         .state('rrhh.app.organizacion.buscarAgencias', {
             url: '/buscarAgencia',
             templateUrl: 'rrhh/views/agencia/form-buscar-agencia.html',
-            controller: 'BuscarAgenciaController'
+            controller: 'Rrhh.BuscarAgenciaController'
         })
         .state('rrhh.app.organizacion.crearAgencia', {
             url: '/crearAgencia',
             templateUrl: 'rrhh/views/agencia/form-crear-agencia.html',
-            controller: 'CrearAgenciaController'
+            controller: 'Rrhh.CrearAgenciaController'
         })
         .state('rrhh.app.organizacion.editarAgencia', {
             url: '/agencia/:id',
@@ -75,17 +75,17 @@ angular.module('mean.rrhh').config(['$stateProvider',
                     return SGAgencia.$find($stateParams.id);
                 }
             },
-            controller: 'EditarAgenciaController'
+            controller: 'Rrhh.EditarAgenciaController'
         })
         .state('rrhh.app.organizacion.editarAgencia.resumen', {
             url: '/resumen',
             templateUrl: 'rrhh/views/agencia/form-editar-agencia-resumen.html',
-            controller: 'AgenciaResumenController'
+            controller: 'Rrhh.EditarAgencia.ResumenController'
         })
         .state('rrhh.app.organizacion.editarAgencia.datosPrincipales', {
             url: '/datosPrincipales',
             templateUrl: 'rrhh/views/agencia/form-editar-agencia-datosPrincipales.html',
-            controller: 'AgenciaDatosPrincipalesController'
+            controller: 'Rrhh.EditarAgencia.DatosPrincipalesController'
         })
 
         .state('rrhh.app.rrhh.buscarTrabajadores', {
