@@ -1,7 +1,7 @@
 'use strict';
 
 /* jshint -W098 */
-angular.module('mean.rrhh').controller('SucursalDatosPrincipalesController', function($scope, toastr, sucursal){
+angular.module('mean.rrhh').controller('Rrhh.EditarSucursal.DatosPrincipalesController', function($scope, toastr, sucursal){
 
     $scope.view = {
         sucursal: sucursal
@@ -17,7 +17,7 @@ angular.module('mean.rrhh').controller('SucursalDatosPrincipalesController', fun
 
             $scope.view.sucursal.$save().then(
                 function(response){
-                    toastr.success('Sucursal actualizada', 'Success');
+                    toastr.success('Sucursal actualizada');
                 },
                 function error(err){
                     toastr.error(err.data.message);

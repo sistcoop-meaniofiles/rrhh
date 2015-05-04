@@ -1,7 +1,7 @@
 'use strict';
 
 /* jshint -W098 */
-angular.module('mean.rrhh').controller('BuscarSucursalController', function($scope, $state, SGSucursal){
+angular.module('mean.rrhh').controller('Rrhh.BuscarSucursalController', function($scope, $state, SGSucursal){
 
     $scope.filterOptions = {
         filterText: undefined,

@@ -29,12 +29,12 @@ angular.module('mean.rrhh').config(['$stateProvider',
         .state('rrhh.app.organizacion.buscarSucursales', {
             url: '/buscarSucursal',
             templateUrl: 'rrhh/views/sucursal/form-buscar-sucursal.html',
-            controller: 'BuscarSucursalController'
+            controller: 'Rrhh.BuscarSucursalController'
         })
         .state('rrhh.app.organizacion.crearSucursal', {
             url: '/crearSucursal',
             templateUrl: 'rrhh/views/sucursal/form-crear-sucursal.html',
-            controller: 'CrearSucursalController'
+            controller: 'Rrhh.CrearSucursalController'
         })
         .state('rrhh.app.organizacion.editarSucursal', {
             url: '/sucursal/:id',
@@ -44,17 +44,17 @@ angular.module('mean.rrhh').config(['$stateProvider',
                     return SGSucursal.$find($stateParams.id);
                 }
             },
-            controller: 'EditarSucursalController'
+            controller: 'Rrhh.EditarSucursalController'
         })
         .state('rrhh.app.organizacion.editarSucursal.resumen', {
             url: '/resumen',
             templateUrl: 'rrhh/views/sucursal/form-editar-sucursal-resumen.html',
-            controller: 'SucursalResumenController'
+            controller: 'Rrhh.EditarSucursal.ResumenController'
         })
         .state('rrhh.app.organizacion.editarSucursal.datosPrincipales', {
             url: '/datosPrincipales',
             templateUrl: 'rrhh/views/sucursal/form-editar-sucursal-datosPrincipales.html',
-            controller: 'SucursalDatosPrincipalesController'
+            controller: 'Rrhh.EditarSucursal.DatosPrincipalesController'
         })
 
         .state('rrhh.app.organizacion.buscarAgencias', {

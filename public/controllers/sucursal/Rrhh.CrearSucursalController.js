@@ -1,7 +1,7 @@
 'use strict';
 
 /* jshint -W098 */
-angular.module('mean.rrhh').controller('CrearSucursalController', function($scope, $state, SGSucursal, toastr){
+angular.module('mean.rrhh').controller('Rrhh.CrearSucursalController', function($scope, $state, SGSucursal, toastr){
 
     $scope.view = {
         sucursal: SGSucursal.$build()
@@ -15,7 +15,7 @@ angular.module('mean.rrhh').controller('CrearSucursalController', function($scop
                     $state.go('^.editarSucursal.resumen', {id: response.id});
                 },
                 function error(err){
-                    toastr.error(err.data.message, 'Error');
+                    toastr.error(err.data.message);
                 }
             );
         }

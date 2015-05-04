@@ -26,15 +26,15 @@
                             </div>
                             <div class="row">
                                 <div class="col-sm-4">
-                                    <div class="form-group" ng-class="{ 'has-error' : form.denominacion.$invalid && (form.denominacion.$touched || form.$submitted)}">
+                                    <div class="form-group" ng-class="{ 'has-error' : form.denominacion.$invalid && form.denominacion.$dirty }">
                                         <label>Denominacion</label>
                                         <input type="text" name="denominacion" ng-model="view.sucursal.denominacion" sg-denominacion-sucursal-validate ng-maxlength="60" class="form-control" required/>
-                                        <div ng-messages="form.denominacion.$error" ng-if="form.denominacion.$touched || form.$submitted">
+                                        <div ng-messages="form.denominacion.$error" ng-if="form.denominacion.$dirty">
                                             <div class="has-error" ng-message="required">Ingrese denominacion.</div>
                                             <div class="has-error" ng-message="maxlength">Maximo 60 caracteres.</div>
                                             <div class="has-error" ng-message="disponible">Denominacion no disponible.</div>
                                         </div>
-                                        <span ng-show="form.denominacion.$pending" us-spinner="spinnerConfig"></span>
+                                        <span ng-show="form.denominacion.$pending" us-spinner="{radius:4,width:1,length: 2,top: '56%',left: '89.8%', className: 'spinner-xs'}"></span>
                                     </div>
                                 </div>
                             </div>
