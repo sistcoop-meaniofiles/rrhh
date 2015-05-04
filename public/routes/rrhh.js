@@ -91,32 +91,32 @@ angular.module('mean.rrhh').config(['$stateProvider',
         .state('rrhh.app.rrhh.buscarTrabajadores', {
             url: '/buscarTrabajador',
             templateUrl: 'rrhh/views/trabajador/form-buscar-trabajador.html',
-            controller: 'BuscarTrabajadorController'
+            controller: 'Rrhh.BuscarTrabajadorController'
         })
         .state('rrhh.app.rrhh.crearTrabajador', {
             url: '/crearTrabajador',
             templateUrl: 'rrhh/views/trabajador/form-crear-trabajador.html',
-            controller: 'CrearTrabajadorController'
+            controller: 'Rrhh.CrearTrabajadorController'
         })
         .state('rrhh.app.rrhh.editarTrabajador', {
             url: '/trabajador/:id',
-            templateUrl: 'rrhh/views/trabajador/form-editar-trabajador-resumen.html',
+            templateUrl: 'rrhh/views/trabajador/form-editar-trabajador.html',
             resolve: {
                 trabajador: function($state, $stateParams, SGTrabajador) {
                     return SGTrabajador.$find($stateParams.id);
                 }
             },
-            controller: 'EditarTrabajadorController'
+            controller: 'Rrhh.EditarTrabajadorController'
         })
         .state('rrhh.app.rrhh.editarTrabajador.resumen', {
             url: '/resumen',
             templateUrl: 'rrhh/views/trabajador/form-editar-trabajador-resumen.html',
-            controller: 'TrabajadorResumenController'
+            controller: 'Rrhh.EditarTrabajador.ResumenController'
         })
         .state('rrhh.app.rrhh.editarTrabajador.datosPrincipales', {
             url: '/datosPrincipales',
-            templateUrl: 'rrhh/views/sucursal/form-editar-trabajador-datosPrincipales.html',
-            controller: 'TrabajadorDatosPrincipalesController'
+            templateUrl: 'rrhh/views/trabajador/form-editar-trabajador-datosPrincipales.html',
+            controller: 'Rrhh.EditarTrabajador.DatosPrincipalesController'
         });
   }
 ]);
