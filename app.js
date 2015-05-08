@@ -24,7 +24,7 @@ Rrhh.register(function(app, auth, database) {
     menu: 'main'
   });
   
-  Rrhh.aggregateAsset('css', 'rrhh.css');
+  //Rrhh.aggregateAsset('css', 'rrhh.css');
 
   return Rrhh;
 });

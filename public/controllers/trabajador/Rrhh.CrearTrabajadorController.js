@@ -39,7 +39,14 @@ angular.module('mean.rrhh').controller('Rrhh.CrearTrabajadorController', functio
         if(!angular.isUndefined($event)) {
             $event.preventDefault();
         }
-        $scope.view.loaded.persona = SGPersonaNatural.$findByTipoNumeroDocumento($scope.combo.selected.tipoDocumento.abreviatura, $scope.view.trabajador.numeroDocumento).$object;
+        SGPersonaNatural.$findByTipoNumeroDocumento($scope.combo.selected.tipoDocumento.abreviatura, $scope.view.trabajador.numeroDocumento).then(function(response){
+            $scope.view.loaded.persona = response;
+            if($scope.view.loaded.persona){
+                toastr.info('Persona encontrada');
+            } else {
+                toastr.warning('Persona no encontrada');
+            }
+        });
         $scope.view.loaded.trabajador = SGTrabajador.$findByTipoNumeroDocumento($scope.combo.selected.tipoDocumento.abreviatura, $scope.view.trabajador.numeroDocumento).$object;
     };
 

@@ -4,9 +4,9 @@
 
     <div class="row">
         <div class="col-sm-4">
-            <div class="form-group" ng-class="{ 'validate-has-error' : form.sucursal.$invalid && (form.sucursal.$touched || form.$submitted)}">
+            <div class="form-group" ng-class="{ 'has-error' : form.sucursal.$invalid && (form.sucursal.$touched || form.$submitted)}">
                 <label>Sucursal</label>
-                <ui-select name="sucursal" ng-model="combo.selected.sucursal" ui-autofocus required>
+                <ui-select name="sucursal" ng-model="combo.selected.sucursal" autofocus required>
                     <ui-select-autoload pk-name="id" comparator="view.loaded.agencia.sucursal.id"></ui-select-autoload>
                     <ui-select-match placeholder="Sucursal">{{$select.selected.denominacion}}</ui-select-match>
                     <ui-select-choices repeat="item in combo.sucursal | filter: $select.search">
@@ -14,12 +14,12 @@
                     </ui-select-choices>
                 </ui-select>
                 <div ng-messages="form.sucursal.$error" ng-if="form.sucursal.$touched || form.$submitted">
-                    <div class="validate-has-error" ng-message="required">Ingrese sucursal.</div>
+                    <div class="has-error" ng-message="required">Ingrese sucursal.</div>
                 </div>
             </div>
         </div>
         <div class="col-sm-4">
-            <div class="form-group" ng-class="{ 'validate-has-error' : form.agencia.$invalid && (form.agencia.$touched || form.$submitted)}">
+            <div class="form-group" ng-class="{ 'has-error' : form.agencia.$invalid && (form.agencia.$touched || form.$submitted)}">
                 <label>Agencia</label>
                 <ui-select name="agencia" ng-model="combo.selected.agencia" required>
                     <ui-select-autoload pk-name="id" comparator="view.trabajador.agencia.id"></ui-select-autoload>
@@ -29,7 +29,7 @@
                     </ui-select-choices>
                 </ui-select>
                 <div ng-messages="form.agencia.$error" ng-if="form.agencia.$touched || form.$submitted">
-                    <div class="validate-has-error" ng-message="required">Ingrese agencia.</div>
+                    <div class="has-error" ng-message="required">Ingrese agencia.</div>
                 </div>
             </div>
         </div>
