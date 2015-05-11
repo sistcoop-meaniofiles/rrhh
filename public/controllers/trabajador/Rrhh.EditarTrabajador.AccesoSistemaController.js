@@ -1,62 +1,71 @@
 'use strict';
 
 /* jshint -W098 */
-angular.module('mean.rrhh').controller('Rrhh.EditarTrabajador.AccesoSistemaController', function(
-    $scope, toastr, SGDialog){
+angular.module('mean.rrhh').controller('Rrhh.EditarTrabajador.AccesoSistemaController',
+    function($scope, toastr, trabajador, SGDialog, SGUsuarioKeycloak, SGTrabajadorUsuario){
 
-    $scope.combo = {
-        usuario: undefined
-    };
-    $scope.combo.selected = {
-        usuario: undefined
-    };
-
-    $scope.refreshComboUsuario = function(filterText){
-        var queryParams = {
-            search: filterText,
-            first: 0,
-            max: 5
+        $scope.view = {
+            trabajador: trabajador
         };
-        if($scope.combo.usuario){
-            $scope.combo.usuario = Usuario.$search(queryParams).$object;
-        }
-        else {
-            queryParams.search = $scope.view.trabajador.usuario;
-            $scope.combo.usuario = Usuario.$search(queryParams).$object;
-        }
-    };
 
-    $scope.desvincular = function(){
-        Dialog.confirm('Desvincular', 'Estas seguro de quitar el usuario para el trabajador?', function() {
-            $scope.view.trabajador.usuario = undefined;
-            $scope.view.trabajador.$save().then(
-                function(response){
-                    Notifications.success('Trabajador actualizado.');
-                    $scope.combo.selected.usuario = undefined;
-                    $scope.view.trabajadorDB = angular.copy($scope.view.trabajador);
-                },
-                function error(err){
-                    Notifications.error(err.data.message+'.');
-                }
-            );
-        });
-    };
+        $scope.view.loaded = {
+            trabajadorUsuario: $scope.view.trabajador.$getTrabajadorUsuario().$object
+        };
 
-    $scope.setUsuario = function(){
-        if ($scope.form.$valid) {
-            $scope.view.trabajador.usuario = $scope.combo.selected.usuario.username;
-            $scope.view.trabajador.$save().then(
-                function(response){
-                    Notifications.success('Trabajador actualizado.');
-                    $scope.view.trabajadorDB = angular.copy($scope.view.trabajador);
-                },
-                function error(err){
-                    Notifications.error(err.data.message+'.');
-                }
-            );
-        }
-    };
+        $scope.combo = {
+            usuario: undefined
+        };
+        $scope.combo.selected = {
+            usuario: undefined
+        };
 
-});
+        $scope.refreshComboUsuario = function(filterText){
+            var queryParams = {
+                search: filterText,
+                first: 0,
+                max: 5
+            };
+            if($scope.combo.usuario){
+                $scope.combo.usuario = SGUsuarioKeycloak.$search(queryParams).$object;
+            }
+            else {
+                queryParams.search = $scope.view.trabajador.usuario;
+                $scope.combo.usuario = SGUsuarioKeycloak.$search(queryParams).$object;
+            }
+        };
 
-       
+        $scope.desvincular = function(){
+            SGDialog.confirm('Desvincular', 'Estas seguro de quitar el usuario para el trabajador?', function() {
+                SGTrabajadorUsuario.$remove($scope.view.loaded.trabajadorUsuario.id).then(
+                    function(response){
+                        toastr.success('Trabajador actualizado');
+                        $scope.view.loaded.trabajadorUsuario = undefined;
+                    },
+                    function error(err){
+                        toastr.error(err.data.message);
+                    }
+                );
+            });
+        };
+
+        $scope.submit = function(){
+            if ($scope.form.$valid) {
+
+                var trabajadorUsuario = {
+                    usuario: $scope.combo.selected.usuario.username
+                };
+
+                $scope.view.trabajador.$addTrabajadorUsuario(trabajadorUsuario).then(
+                    function(response){
+                        toastr.success('Trabajador actualizado');
+                        $scope.view.loaded.trabajadorUsuario.usuario = $scope.combo.selected.usuario.username;
+                    },
+                    function error(err){
+                        toastr.error(err.data.message);
+                    }
+                );
+            }
+        };
+
+    });
+

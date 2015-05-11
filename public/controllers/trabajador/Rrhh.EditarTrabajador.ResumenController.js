@@ -2,7 +2,7 @@
 
 /* jshint -W098 */
 angular.module('mean.rrhh').controller('Rrhh.EditarTrabajador.ResumenController', function(
-    $scope, trabajador, SGAgencia, SGPersonaNatural){
+    $scope, trabajador, SGAgencia, SGPersonaNatural, SGUsuarioKeycloak){
 
     $scope.view = {
         trabajador: trabajador
@@ -11,10 +11,29 @@ angular.module('mean.rrhh').controller('Rrhh.EditarTrabajador.ResumenController'
     $scope.view.loaded = {
         persona: SGPersonaNatural.$findByTipoNumeroDocumento($scope.view.trabajador.tipoDocumento, $scope.view.trabajador.numeroDocumento).$object,
         agencia: SGAgencia.$find($scope.view.trabajador.agencia.id).$object,
+        usuarioTrabajador: undefined,
         userKeycloak: {
             rolesAssigned: []
         }
     };
+
+    $scope.loadUsuario = function(){
+        $scope.view.trabajador.$getTrabajadorUsuario().then(function(response){
+
+            //trabajador usuario de sistcoop
+            $scope.view.loaded.usuarioTrabajador = response;
+
+            //Usuario de keycloak, para sacar roles
+            var usuario = $scope.view.loaded.usuarioTrabajador.usuario;
+            SGUsuarioKeycloak.$roleMappings(usuario).then(function(response){
+                var realmRoles = response.realmMappings;
+                for(var i=realmRoles.length - 1; i>=0; i--){
+                    $scope.view.loaded.userKeycloak.rolesAssigned.push(realmRoles[i].name);
+                }
+            });
+        });
+    };
+    $scope.loadUsuario();
 
     $scope.combo = {
         sucursal: undefined,

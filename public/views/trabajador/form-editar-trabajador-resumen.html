@@ -182,17 +182,17 @@
                                 </div>
                             </div>
                             <div class="col-sm-9">
-                                <p><strong ng-bind="view.trabajador.usuario"></strong></p>
+                                <p><strong ng-bind="view.loaded.usuarioTrabajador.usuario"></strong></p>
                             </div>
                         </div>
                         <div class="row" sg-data-keep="{module: 'ORGANIZACION', rol: ['ADMIN']}">
                             <div class="col-sm-3">
                                 <div class="form-group">
-                                    <p>Rol:&nbsp;</p>
+                                    <p>Roles:&nbsp;</p>
                                 </div>
                             </div>
                             <div class="col-sm-9">
-                                <p><strong>{{view.loaded.userKeycloak.rolesAssigned}}</strong></p>
+                                <p><strong>{{view.loaded.userKeycloak.rolesAssigned.toString()}}</strong></p>
                             </div>
                         </div>
                     </div>
