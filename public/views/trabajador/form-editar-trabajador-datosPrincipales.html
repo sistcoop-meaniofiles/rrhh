@@ -7,7 +7,7 @@
             <div class="form-group" ng-class="{ 'has-error' : form.sucursal.$invalid && (form.sucursal.$touched || form.$submitted)}">
                 <label>Sucursal</label>
                 <ui-select name="sucursal" ng-model="combo.selected.sucursal" autofocus required>
-                    <ui-select-autoload pk-name="id" comparator="view.loaded.agencia.sucursal.id"></ui-select-autoload>
+                    <ui-select-autoload pk-name="id" comparator="view.loaded.sucursal.id"></ui-select-autoload>
                     <ui-select-match placeholder="Sucursal">{{$select.selected.denominacion}}</ui-select-match>
                     <ui-select-choices repeat="item in combo.sucursal | filter: $select.search">
                         <div ng-bind-html="item.denominacion | highlight: $select.search"></div>
