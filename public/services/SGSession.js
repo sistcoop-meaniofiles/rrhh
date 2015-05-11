@@ -14,34 +14,34 @@ angular.module('mean.rrhh').factory('SGSession', function(){
 });
 
 
-angular.module('mean.rrhh').run(function(Auth, AuthRrhh, SGTrabajadorUsuario, SGTrabajador, SGAgencia, SGTrabajadorCaja){
+angular.module('mean.rrhh').run(function(Auth, SGSession, SGTrabajadorUsuario, SGTrabajador, SGAgencia, SGTrabajadorCaja){
 
     //cargar trabajador a travez de trabajador usuario
     SGTrabajadorUsuario.$findByUsuario(Auth.authz.idTokenParsed.preferred_username).then(function(trabajadorUsuario){
-        AuthRrhh.trabajador = angular.isDefined(trabajadorUsuario) ? trabajadorUsuario.trabajador : undefined;
+        SGSession.trabajador = angular.isDefined(trabajadorUsuario) ? trabajadorUsuario.trabajador : undefined;
 
         //cargar agencia y sucursal
-        if(AuthRrhh.trabajador)
+        if(SGSession.trabajador)
         {
-            SGTrabajador.$new(AuthRrhh.trabajador.id).$getAgencia().then(function(agencia){
-                AuthRrhh.agencia = agencia;
+            SGTrabajador.$new(SGSession.trabajador.id).$getAgencia().then(function(agencia){
+                SGSession.agencia = agencia;
 
-                if(AuthRrhh.agencia)
+                if(SGSession.agencia)
                 {
-                    AuthRrhh.sucursal =  SGAgencia.$new(AuthRrhh.agencia.id).$getSucursal().$object;
+                    SGSession.sucursal =  SGAgencia.$new(SGSession.agencia.id).$getSucursal().$object;
                 }
 
             });
         }
 
         //cargar caja
-        if(AuthRrhh.trabajador)
+        if(SGSession.trabajador)
         {
-            var tipoDocumento =  AuthRrhh.trabajador.tipoDocumento;
-            var numeroDocumento =  AuthRrhh.trabajador.numeroDocumento;
+            var tipoDocumento =  SGSession.trabajador.tipoDocumento;
+            var numeroDocumento =  SGSession.trabajador.numeroDocumento;
 
             SGTrabajadorCaja.$findByTipoNumeroDocumento(tipoDocumento, numeroDocumento).then(function(trabajadorCaja){
-                AuthRrhh.caja = angular.isDefined(trabajadorCaja) ? trabajadorCaja.caja : undefined;
+                SGSession.caja = angular.isDefined(trabajadorCaja) ? trabajadorCaja.caja : undefined;
             });
         }
 
