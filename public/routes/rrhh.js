@@ -10,7 +10,6 @@ angular.module('mean.rrhh').config(['$stateProvider',
             var deferred = $q.defer();
 
             // Authenticated
-            console.log(Auth);
             if (Auth.authz.hasResourceRole(role, 'rrhh')) {
                 $timeout(deferred.resolve);
             }
