@@ -25,12 +25,12 @@ angular.module('mean.rrhh').controller('Rrhh.EditarTrabajador.ResumenController'
 
             //Usuario de keycloak, para sacar roles
             var usuario = $scope.view.loaded.usuarioTrabajador.usuario;
-            SGUsuarioKeycloak.$roleMappings(usuario).then(function(response){
-                var realmRoles = response.realmMappings;
-                for(var i=realmRoles.length - 1; i>=0; i--){
-                    $scope.view.loaded.userKeycloak.rolesAssigned.push(realmRoles[i].name);
+            SGUsuarioKeycloak.$realmRoles(usuario).then(function(response){
+                for(var i=0; i<response.length; i++){
+                    $scope.view.loaded.userKeycloak.rolesAssigned.push(response[i].name);
                 }
             });
+
         });
     };
     $scope.loadUsuario();
