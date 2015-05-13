@@ -5,37 +5,34 @@ angular.module('mean.rrhh').factory('SGSession', function(Auth, SGTrabajadorUsua
     var auth = {
         sucursal: undefined,
         agencia: undefined,
-        trabajador: undefined,
+        trabajadorCaja: undefined,
         caja: undefined
     };
 
     //cargar trabajador a travez de trabajador usuario
+    auth.trabajadorCaja = SGTrabajadorUsuario.$findByUsuario(Auth.authz.idTokenParsed.preferred_username).$object;
+
     SGTrabajadorUsuario.$findByUsuario(Auth.authz.idTokenParsed.preferred_username).then(function(trabajadorUsuario){
-        auth.trabajador = angular.isDefined(trabajadorUsuario) ? trabajadorUsuario.trabajador : undefined;
 
         //cargar agencia y sucursal
-        if(auth.trabajador)
+        if(trabajadorUsuario.trabajador)
         {
-            SGTrabajador.$new(auth.trabajador.id).$getAgencia().then(function(agencia){
-                auth.agencia = agencia;
-
-                if(auth.agencia)
+            auth.agencia = SGTrabajador.$new(trabajadorUsuario.trabajador.id).$getAgencia().$object;
+            SGTrabajador.$new(trabajadorUsuario.trabajador.id).$getAgencia().then(function(agencia){
+                if(agencia)
                 {
-                    auth.sucursal =  SGAgencia.$new(auth.agencia.id).$getSucursal();
+                    auth.sucursal =  SGAgencia.$new(auth.agencia.id).$getSucursal().$object;
                 }
-
             });
         }
 
         //cargar caja
-        if(auth.trabajador)
+        if(trabajadorUsuario.trabajador)
         {
-            var tipoDocumento =  auth.trabajador.tipoDocumento;
-            var numeroDocumento =  auth.trabajador.numeroDocumento;
+            var tipoDocumento =  trabajadorUsuario.trabajador.tipoDocumento;
+            var numeroDocumento =  trabajadorUsuario.trabajador.numeroDocumento;
 
-            SGTrabajadorCaja.$findByTipoNumeroDocumento(tipoDocumento, numeroDocumento).then(function(trabajadorCaja){
-                auth.caja = angular.isDefined(trabajadorCaja) ? trabajadorCaja.caja : undefined;
-            });
+            auth.caja = SGTrabajadorCaja.$findByTipoNumeroDocumento(tipoDocumento, numeroDocumento).$object;
         }
 
     });
