@@ -1,7 +1,7 @@
 'use strict';
 
 /* jshint -W098 */
-angular.module('mean.rrhh').controller('Rrhh.BuscarAgenciaController', function($scope, $state, SGAgencia, SGSucursal){
+angular.module('mean.rrhh').controller('Rrhh.BuscarAgenciaController', function ($scope, $state, SGAgencia, SGSucursal) {
 
     $scope.combo = {
         sucursal: undefined
@@ -10,7 +10,7 @@ angular.module('mean.rrhh').controller('Rrhh.BuscarAgenciaController', function(
         sucursal: undefined
     };
 
-    $scope.loadCombo = function(){
+    $scope.loadCombo = function () {
         $scope.combo.sucursal = SGSucursal.$search().$object;
     };
     $scope.loadCombo();
@@ -38,17 +38,16 @@ angular.module('mean.rrhh').controller('Rrhh.BuscarAgenciaController', function(
         ]
     };
 
-    $scope.search = function(){
+    $scope.search = function () {
         $scope.gridOptions.data = $scope.combo.selected.sucursal.$getAgencias($scope.filterOptions).$object;
     };
 
-    $scope.nuevo = function(){
-        $state.go('^.crearAgencia');
-    };
-
     $scope.gridActions = {
-        edit: function(row){
-            $state.go('^.editarAgencia.resumen', {id: row.id});
+        edit: function (row) {
+            $state.go('^.editarAgencia.resumen', {
+                id: row.id,
+                sucursal: $scope.combo.selected.sucursal.id
+            });
         }
     };
 

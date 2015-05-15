@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('mean.rrhh').service('$menuItemsRrhh', [
-    function() {
+angular.module('mean.rrhh').service('$menuItemsRrhh', ['Auth',
+    function (Auth) {
 
         this.menuItems = [];
 
@@ -20,9 +20,8 @@ angular.module('mean.rrhh').service('$menuItemsRrhh', [
 
             menuItems: [],
 
-            setLabel: function(label, color, hideWhenCollapsed)
-            {
-                if(typeof hideWhenCollapsed === 'undefined')
+            setLabel: function (label, color, hideWhenCollapsed) {
+                if (typeof hideWhenCollapsed === 'undefined')
                     hideWhenCollapsed = true;
 
                 this.label = {
@@ -34,8 +33,7 @@ angular.module('mean.rrhh').service('$menuItemsRrhh', [
                 return this;
             },
 
-            addItem: function(title, link, icon)
-            {
+            addItem: function (title, link, icon) {
                 var parent = this,
                     item = angular.extend(angular.copy(menuItemObj), {
                         parent: parent,
@@ -45,12 +43,11 @@ angular.module('mean.rrhh').service('$menuItemsRrhh', [
                         icon: icon
                     });
 
-                if(item.link)
-                {
-                    if(item.link.match(/^\./))
+                if (item.link) {
+                    if (item.link.match(/^\./))
                         item.link = parent.link + item.link.substring(1, link.length);
 
-                    if(item.link.match(/^-/))
+                    if (item.link.match(/^-/))
                         item.link = parent.link + '-' + item.link.substring(2, link.length);
 
                     item.state = $menuItemsRef.toStatePath(item.link);
@@ -62,8 +59,7 @@ angular.module('mean.rrhh').service('$menuItemsRrhh', [
             }
         };
 
-        this.addItem = function(title, link, icon)
-        {
+        this.addItem = function (title, link, icon) {
             var item = angular.extend(angular.copy(menuItemObj), {
                 title: title,
                 link: link,
@@ -76,33 +72,42 @@ angular.module('mean.rrhh').service('$menuItemsRrhh', [
             return item;
         };
 
-        this.getAll = function()
-        {
+        this.getAll = function () {
             return this.menuItems;
         };
 
-        this.prepareSidebarMenu = function()
-        {
+        this.prepareSidebarMenu = function () {
             this.menuItems = [];
 
-            var organizacion = this.addItem('Organizacion', '', 'linecons-inbox');
-            var rrhh = this.addItem('Rrhh', '', 'linecons-inbox');
+            var rolesSession = [];
+            if (Auth.authz.resourceAccess.rrhh) {
+                rolesSession = Auth.authz.resourceAccess.rrhh.roles;
+            }
 
-            organizacion.addItem('Sucursales', 'rrhh.app.organizacion.buscarSucursales');
-            organizacion.addItem('Agencias', 'rrhh.app.organizacion.buscarAgencias');
+            if (rolesSession.indexOf('ver-sucursales') != -1 || rolesSession.indexOf('ver-agencias') != -1) {
+                var organizacion = this.addItem('Organizacion', '', 'linecons-inbox');
 
-            rrhh.addItem('Trabajadores', 'rrhh.app.rrhh.buscarTrabajadores');
+                if (rolesSession.indexOf('ver-sucursales') != -1) {
+                    organizacion.addItem('Sucursales', 'rrhh.app.organizacion.buscarSucursales');
+                }
+                if (rolesSession.indexOf('ver-agencias') != -1) {
+                    organizacion.addItem('Agencias', 'rrhh.app.organizacion.buscarAgencias');
+                }
+            }
+
+            if (rolesSession.indexOf('ver-trabajadores') != -1) {
+                var rrhh = this.addItem('Rrhh', '', 'linecons-inbox');
+                rrhh.addItem('Trabajadores', 'rrhh.app.rrhh.buscarTrabajadores');
+            }
 
             return this;
         };
 
-        this.instantiate = function()
-        {
-            return angular.copy( this );
+        this.instantiate = function () {
+            return angular.copy(this);
         };
 
-        this.toStatePath = function(path)
-        {
+        this.toStatePath = function (path) {
             return path.replace(/\//g, '.').replace(/^\./, '');
         };
 

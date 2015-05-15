@@ -30,10 +30,6 @@ angular.module('mean.rrhh').controller('Rrhh.BuscarSucursalController', function
         $scope.gridOptions.data = SGSucursal.$search($scope.filterOptions).$object;
     };
 
-    $scope.nuevo = function(){
-        $state.go('^.crearSucursal');
-    };
-
     $scope.gridActions = {
         edit: function(row){
             $state.go('^.editarSucursal.resumen', {id: row.id});

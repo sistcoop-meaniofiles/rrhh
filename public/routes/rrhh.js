@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('mean.rrhh').config(['$stateProvider',
-    function ($stateProvider) {
+angular.module('mean.rrhh').config(['$stateProvider', '$urlRouterProvider',
+    function ($stateProvider, $urlRouterProvider) {
 
         // Check if user has role
         var checkUserRole = function (role, $q, $timeout, $http, $location, Auth) {
@@ -24,19 +24,37 @@ angular.module('mean.rrhh').config(['$stateProvider',
             return deferred.promise;
         };
 
+        $urlRouterProvider.when('/rrhh', '/rrhh/config');
+
         $stateProvider
             .state('rrhh', {
                 abstract: true,
                 url: '/rrhh',
-                templateUrl: 'rrhh/views/_body.html'
+                templateUrl: 'rrhh/views/_body.html',
+                controller: 'RrhhController'
             })
             .state('rrhh.home', {
                 url: '/home',
                 templateUrl: 'rrhh/views/index.html'
             })
+
+            .state('rrhh.config', {
+                url: '/config',
+                template: '<div></div>',
+                controller: function ($state, $scope) {
+                    $scope.session.configured = true;
+                    $state.go('rrhh.app', {sucursal: $scope.session.idSucursal});
+                }
+            })
             .state('rrhh.app', {
-                url: '/app',
-                templateUrl: 'rrhh/views/app.html'
+                url: '/:sucursal/app',
+                templateUrl: 'rrhh/views/app.html',
+                controller: function ($state, $stateParams, $scope) {
+                    //si no se puso la configuracion de las sucursal por defecto
+                    if (!$scope.session.configured) {
+                        $state.go('rrhh.config');
+                    }
+                }
             })
 
             .state('rrhh.app.organizacion', {
@@ -54,7 +72,7 @@ angular.module('mean.rrhh').config(['$stateProvider',
                 controller: 'Rrhh.BuscarSucursalController',
                 resolve: {
                     loggedin: function ($q, $timeout, $http, $location, Auth) {
-                        return checkUserRole('PUBLIC', $q, $timeout, $http, $location, Auth)
+                        return checkUserRole('ver-sucursales', $q, $timeout, $http, $location, Auth)
                     }
                 }
             })
@@ -64,7 +82,7 @@ angular.module('mean.rrhh').config(['$stateProvider',
                 controller: 'Rrhh.CrearSucursalController',
                 resolve: {
                     loggedin: function ($q, $timeout, $http, $location, Auth) {
-                        return checkUserRole('ADMIN', $q, $timeout, $http, $location, Auth)
+                        return checkUserRole('ver-sucursales', $q, $timeout, $http, $location, Auth)
                     }
                 }
             })
@@ -73,7 +91,7 @@ angular.module('mean.rrhh').config(['$stateProvider',
                 templateUrl: 'rrhh/views/sucursal/form-editar-sucursal.html',
                 resolve: {
                     loggedin: function ($q, $timeout, $http, $location, Auth) {
-                        return checkUserRole('PUBLIC', $q, $timeout, $http, $location, Auth)
+                        return checkUserRole('ver-sucursales', $q, $timeout, $http, $location, Auth)
                     },
                     sucursal: function ($state, $stateParams, SGSucursal) {
                         return SGSucursal.$find($stateParams.id);
@@ -87,7 +105,7 @@ angular.module('mean.rrhh').config(['$stateProvider',
                 controller: 'Rrhh.EditarSucursal.ResumenController',
                 resolve: {
                     loggedin: function ($q, $timeout, $http, $location, Auth) {
-                        return checkUserRole('PUBLIC', $q, $timeout, $http, $location, Auth)
+                        return checkUserRole('ver-sucursales', $q, $timeout, $http, $location, Auth)
                     }
                 }
             })
@@ -97,7 +115,7 @@ angular.module('mean.rrhh').config(['$stateProvider',
                 controller: 'Rrhh.EditarSucursal.DatosPrincipalesController',
                 resolve: {
                     loggedin: function ($q, $timeout, $http, $location, Auth) {
-                        return checkUserRole('ADMIN', $q, $timeout, $http, $location, Auth)
+                        return checkUserRole('ver-sucursales', $q, $timeout, $http, $location, Auth)
                     }
                 }
             })
@@ -108,7 +126,7 @@ angular.module('mean.rrhh').config(['$stateProvider',
                 controller: 'Rrhh.BuscarAgenciaController',
                 resolve: {
                     loggedin: function ($q, $timeout, $http, $location, Auth) {
-                        return checkUserRole('PUBLIC', $q, $timeout, $http, $location, Auth)
+                        return checkUserRole('ver-agencias', $q, $timeout, $http, $location, Auth)
                     }
                 }
             })
@@ -118,19 +136,22 @@ angular.module('mean.rrhh').config(['$stateProvider',
                 controller: 'Rrhh.CrearAgenciaController',
                 resolve: {
                     loggedin: function ($q, $timeout, $http, $location, Auth) {
-                        return checkUserRole('ADMIN', $q, $timeout, $http, $location, Auth)
+                        return checkUserRole('ver-agencias', $q, $timeout, $http, $location, Auth)
                     }
                 }
             })
             .state('rrhh.app.organizacion.editarAgencia', {
-                url: '/agencia/:id',
+                url: '/agencia/:id?sucursal',
                 templateUrl: 'rrhh/views/agencia/form-editar-agencia.html',
                 resolve: {
                     loggedin: function ($q, $timeout, $http, $location, Auth) {
-                        return checkUserRole('PUBLIC', $q, $timeout, $http, $location, Auth)
+                        return checkUserRole('ver-agencias', $q, $timeout, $http, $location, Auth)
                     },
                     agencia: function ($state, $stateParams, SGAgencia) {
-                        return SGAgencia.$find($stateParams.id);
+                        return SGAgencia.$find($stateParams.sucursal, $stateParams.id);
+                    },
+                    sucursal: function ($state, $stateParams, SGSucursal) {
+                        return SGSucursal.$find($stateParams.sucursal);
                     }
                 },
                 controller: 'Rrhh.EditarAgenciaController'
@@ -141,7 +162,7 @@ angular.module('mean.rrhh').config(['$stateProvider',
                 controller: 'Rrhh.EditarAgencia.ResumenController',
                 resolve: {
                     loggedin: function ($q, $timeout, $http, $location, Auth) {
-                        return checkUserRole('PUBLIC', $q, $timeout, $http, $location, Auth)
+                        return checkUserRole('ver-agencias', $q, $timeout, $http, $location, Auth)
                     }
                 }
             })
@@ -151,7 +172,7 @@ angular.module('mean.rrhh').config(['$stateProvider',
                 controller: 'Rrhh.EditarAgencia.DatosPrincipalesController',
                 resolve: {
                     loggedin: function ($q, $timeout, $http, $location, Auth) {
-                        return checkUserRole('ADMIN', $q, $timeout, $http, $location, Auth)
+                        return checkUserRole('ver-agencias', $q, $timeout, $http, $location, Auth)
                     }
                 }
             })
@@ -162,7 +183,7 @@ angular.module('mean.rrhh').config(['$stateProvider',
                 controller: 'Rrhh.BuscarTrabajadorController',
                 resolve: {
                     loggedin: function ($q, $timeout, $http, $location, Auth) {
-                        return checkUserRole('PUBLIC', $q, $timeout, $http, $location, Auth)
+                        return checkUserRole('ver-trabajadores', $q, $timeout, $http, $location, Auth)
                     }
                 }
             })

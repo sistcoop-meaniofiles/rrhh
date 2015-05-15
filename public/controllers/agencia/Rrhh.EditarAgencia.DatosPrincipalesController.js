@@ -1,29 +1,31 @@
 'use strict';
 
 /* jshint -W098 */
-angular.module('mean.rrhh').controller('Rrhh.EditarAgencia.DatosPrincipalesController', function($scope, agencia, toastr){
+angular.module('mean.rrhh').controller('Rrhh.EditarAgencia.DatosPrincipalesController',
+    function ($scope, sucursal, agencia, toastr) {
 
-    $scope.view = {
-        agencia: agencia
-    };
+        $scope.view = {
+            sucursal: sucursal,
+            agencia: agencia
+        };
 
-    $scope.submit = function(){
-        if ($scope.form.$valid) {
+        $scope.save = function () {
 
-            if($scope.view.agencia.estado === false){
-                toastr.info('Agencia inactiva, no se puede actualizar', 'Info');
+            if ($scope.view.agencia.estado === false) {
+                toastr.info('Agencia inactiva, no se puede actualizar');
                 return;
             }
 
-            $scope.view.agencia.$save().then(
-                function(response){
+            $scope.view.agencia.$save($scope.view.sucursal.id).then(
+                function (response) {
                     toastr.success('Agencia actualizada');
                 },
-                function error(err){
-                    toastr.error(err.data.message, 'Error');
+                function error(err) {
+                    toastr.error(err.data.message);
                 }
             );
-        }
-    };
 
-});
+        };
+
+    }
+);

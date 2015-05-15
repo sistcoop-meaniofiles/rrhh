@@ -20,7 +20,11 @@
                     </li>
                     <li class="pull-right">
                         <div class="btn-group">
-                            <button type="button" data-ng-click="desactivar()" class="btn btn-danger">Desactivar</button>
+
+                            <form name="form" data-ng-submit="desactivar()" sg-read-only="!access.administrarSucursales" novalidate>
+                                <button sg-delete>Desactivar</button>
+                            </form>
+
                         </div>
                     </li>
                 </ul>
