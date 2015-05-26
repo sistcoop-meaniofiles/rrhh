@@ -1,40 +1,28 @@
-<div class="content console-os">
-    <div class="wrap">
+<div class="row">
+    <div ui-view class="col-sm-9 col-md-10 col-sm-push-3 col-md-push-2" style="min-height: 581px;">
 
+    </div>
+    <!-- /col -->
 
-        <div data-ng-controller="RrhhSidebarController" class="sidebar-left">
-            <nav class="navbar navbar-sidebar">
-                <div class="navbar-collapse navbar-collapse-2 collapse">
-
-                    <ul class="nav nav-sidenav">
-                        <li ui-sref-active-eq="active" data-ng-repeat="item in menuItems">
-                            <a class="ng-binding" style="font-size: 12px;">
-                                <span class="fa fa-sitemap fa-fw"></span> {{item.title}}
-                            </a>
-                            <div>
-                                <ul ui-sref-active="active" data-ng-repeat="subItem in item.menuItems" class="nav nav-sidenav-secondary">
-                                    <li>
-                                        <a ui-sref="{{subItem.link}}" style="font-size: 12px;">{{subItem.title}}</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                    </ul>
-
+    <div class="col-sm-3 col-md-2 col-sm-pull-9 col-md-pull-10 sidebar-pf sidebar-pf-left" style="min-height: 581px;">
+        <div class="panel-group" data-ng-controller="RrhhSidebarController">
+            <div class="panel panel-default" data-ng-repeat="item in menuItems">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a>{{item.title}}</a>
+                    </h4>
                 </div>
-            </nav>
-        </div>
-
-
-        <div class="container-main">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-12" ui-view>
-                        contenido
-                        <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+                <div class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        <ul class="nav nav-pills nav-stacked">
+                            <li data-ng-repeat="subItem in item.menuItems" ui-sref-active="active">
+                                <a ui-sref="{{subItem.link}}">{{subItem.title}}</a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <!-- /col -->
 </div>

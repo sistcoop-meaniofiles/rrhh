@@ -15,7 +15,6 @@ angular.module('mean.rrhh').controller('Rrhh.BuscarSucursalController', function
         enableRowHeaderSelection: false,
         multiSelect: false,
         columnDefs: [
-            {field: 'abreviatura', displayName: 'Abreviatura'},
             {field: 'denominacion', displayName: 'Denominacion'},
             {field: 'estado', cellFilter: 'si_no : "activo" | uppercase', displayName: 'Estado'},
             {

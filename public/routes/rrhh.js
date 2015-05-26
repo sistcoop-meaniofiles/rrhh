@@ -38,23 +38,9 @@ angular.module('mean.rrhh').config(['$stateProvider', '$urlRouterProvider',
                 templateUrl: 'rrhh/views/index.html'
             })
 
-            .state('rrhh.config', {
-                url: '/config',
-                template: '<div></div>',
-                controller: function ($state, $scope) {
-                    $scope.session.configured = true;
-                    $state.go('rrhh.app', {sucursal: $scope.session.idSucursal});
-                }
-            })
             .state('rrhh.app', {
                 url: '/:sucursal/app',
-                templateUrl: 'rrhh/views/app.html',
-                controller: function ($state, $stateParams, $scope) {
-                    //si no se puso la configuracion de las sucursal por defecto
-                    if (!$scope.session.configured) {
-                        $state.go('rrhh.config');
-                    }
-                }
+                templateUrl: 'rrhh/views/app.html'
             })
 
             .state('rrhh.app.organizacion', {
