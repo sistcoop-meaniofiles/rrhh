@@ -36,26 +36,18 @@
                             <thead ng-show="loadObjects.agencias.length">
                             <tr>
                                 <th>#</th>
-                                <th>Cod.</th>
                                 <th>Denominacion</th>
                                 <th>Ubigeo</th>
-                                <th>Estado</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr ng-repeat="item in loadObjects.agencias">
                                 <td><span ng-bind="$index+1"></span></td>
                                 <td>
-                                    <span ng-bind="item.codigo"></span>
-                                </td>
-                                <td>
                                     <span ng-bind="item.denominacion"></span>
                                 </td>
                                 <td>
                                     <span ng-bind="item.ubigeo"></span>
-                                </td>
-                                <td>
-                                    <span ng-bind="item.estado | si_no:'activo'"></span>
                                 </td>
                             </tr>
                             </tbody>

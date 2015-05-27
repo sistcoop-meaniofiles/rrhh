@@ -31,7 +31,7 @@ angular.module('mean.rrhh').controller('Rrhh.BuscarSucursalController', function
 
     $scope.gridActions = {
         edit: function(row){
-            $state.go('^.editarSucursal.resumen', {denominacion: row.denominacion});
+            $state.go('^.editarSucursal.resumen', {sucursal: row.denominacion});
         }
     };
 

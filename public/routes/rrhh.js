@@ -73,14 +73,14 @@ angular.module('mean.rrhh').config(['$stateProvider', '$urlRouterProvider',
                 }
             })
             .state('rrhh.app.organizacion.editarSucursal', {
-                url: '/sucursal/:denominacion',
+                url: '/sucursal/:sucursal',
                 templateUrl: 'rrhh/views/sucursal/form-editar-sucursal.html',
                 resolve: {
                     loggedin: function ($q, $timeout, $http, $location, Auth) {
                         return checkUserRole('ver-sucursales', $q, $timeout, $http, $location, Auth)
                     },
                     sucursal: function ($state, $stateParams, SGSucursal) {
-                        return SGSucursal.$find($stateParams.denominacion);
+                        return SGSucursal.$find($stateParams.sucursal);
                     }
                 },
                 controller: 'Rrhh.EditarSucursalController'
@@ -105,10 +105,13 @@ angular.module('mean.rrhh').config(['$stateProvider', '$urlRouterProvider',
                     }
                 }
             })
-
-            .state('rrhh.app.organizacion.buscarAgencias', {
-                url: '/buscarAgencia',
-                templateUrl: 'rrhh/views/agencia/form-buscar-agencia.html',
+            .state('rrhh.app.organizacion.editarSucursal.agencias', {
+                url: '/agencias',
+                template: '<ui-view></ui-view>'
+            })
+            .state('rrhh.app.organizacion.editarSucursal.agencias.buscarAgencias', {
+                url: '/buscarAgencias',
+                templateUrl: 'rrhh/views/sucursal/agencia/form-buscar-agencia.html',
                 controller: 'Rrhh.BuscarAgenciaController',
                 resolve: {
                     loggedin: function ($q, $timeout, $http, $location, Auth) {
@@ -116,49 +119,26 @@ angular.module('mean.rrhh').config(['$stateProvider', '$urlRouterProvider',
                     }
                 }
             })
-            .state('rrhh.app.organizacion.crearAgencia', {
+            .state('rrhh.app.organizacion.editarSucursal.agencias.crearAgencia', {
                 url: '/crearAgencia',
-                templateUrl: 'rrhh/views/agencia/form-crear-agencia.html',
+                templateUrl: 'rrhh/views/sucursal/agencia/form-crear-agencia.html',
                 controller: 'Rrhh.CrearAgenciaController',
                 resolve: {
                     loggedin: function ($q, $timeout, $http, $location, Auth) {
-                        return checkUserRole('ver-agencias', $q, $timeout, $http, $location, Auth)
+                        return checkUserRole('administrar-agencias', $q, $timeout, $http, $location, Auth)
                     }
                 }
             })
-            .state('rrhh.app.organizacion.editarAgencia', {
-                url: '/agencia/:id?sucursal',
-                templateUrl: 'rrhh/views/agencia/form-editar-agencia.html',
+            .state('rrhh.app.organizacion.editarSucursal.agencias.editarAgencia', {
+                url: '/editarAgencia/:agencia',
+                templateUrl: 'rrhh/views/sucursal/agencia/form-editar-agencia-datosPrincipales.html',
+                controller: 'Rrhh.EditarAgenciaController',
                 resolve: {
                     loggedin: function ($q, $timeout, $http, $location, Auth) {
-                        return checkUserRole('ver-agencias', $q, $timeout, $http, $location, Auth)
+                        return checkUserRole('administrar-agencias', $q, $timeout, $http, $location, Auth)
                     },
-                    agencia: function ($state, $stateParams, SGAgencia) {
-                        return SGAgencia.$find($stateParams.sucursal, $stateParams.id);
-                    },
-                    sucursal: function ($state, $stateParams, SGSucursal) {
-                        return SGSucursal.$find($stateParams.sucursal);
-                    }
-                },
-                controller: 'Rrhh.EditarAgenciaController'
-            })
-            .state('rrhh.app.organizacion.editarAgencia.resumen', {
-                url: '/resumen',
-                templateUrl: 'rrhh/views/agencia/form-editar-agencia-resumen.html',
-                controller: 'Rrhh.EditarAgencia.ResumenController',
-                resolve: {
-                    loggedin: function ($q, $timeout, $http, $location, Auth) {
-                        return checkUserRole('ver-agencias', $q, $timeout, $http, $location, Auth)
-                    }
-                }
-            })
-            .state('rrhh.app.organizacion.editarAgencia.datosPrincipales', {
-                url: '/datosPrincipales',
-                templateUrl: 'rrhh/views/agencia/form-editar-agencia-datosPrincipales.html',
-                controller: 'Rrhh.EditarAgencia.DatosPrincipalesController',
-                resolve: {
-                    loggedin: function ($q, $timeout, $http, $location, Auth) {
-                        return checkUserRole('ver-agencias', $q, $timeout, $http, $location, Auth)
+                    agencia: function ($state, $stateParams, sucursal, SGAgencia) {
+                        return SGAgencia.$find(sucursal.denominacion, $stateParams.agencia);
                     }
                 }
             })

@@ -11,7 +11,7 @@ angular.module('mean.rrhh').controller('Rrhh.CrearSucursalController', function 
         $scope.view.sucursal.$save().then(
             function (response) {
                 toastr.success('Sucursal creada satisfactoriamente');
-                $state.go('^.editarSucursal.resumen', {denominacion: $scope.view.sucursal.denominacion});
+                $state.go('^.editarSucursal.resumen', {sucursal: $scope.view.sucursal.denominacion});
             },
             function error(err) {
                 toastr.error(err.data.message);

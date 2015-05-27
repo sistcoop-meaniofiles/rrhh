@@ -90,9 +90,6 @@ angular.module('mean.rrhh').service('$menuItemsRrhh', ['Auth',
                 if (rolesSession.indexOf('ver-sucursales') != -1) {
                     organizacion.addItem('Sucursales', 'rrhh.app.organizacion.buscarSucursales');
                 }
-                if (rolesSession.indexOf('ver-agencias') != -1) {
-                    organizacion.addItem('Agencias', 'rrhh.app.organizacion.buscarAgencias');
-                }
             }
 
             if (rolesSession.indexOf('ver-trabajadores') != -1) {
