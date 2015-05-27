@@ -2,7 +2,7 @@
 
 /* jshint -W098 */
 angular.module('mean.rrhh').controller('Rrhh.BuscarTrabajadorController', function(
-        $scope, $state, SGSucursal, SGAgencia, SGPersonaNatural) {
+        $scope, $state, SGSucursal, SGAgencia, SGTrabajador, SGPersonaNatural) {
 
         $scope.combo = {
             sucursal: undefined,
@@ -51,12 +51,14 @@ angular.module('mean.rrhh').controller('Rrhh.BuscarTrabajadorController', functi
 
         $scope.search = function(){
             if($scope.combo.selected.sucursal && $scope.combo.selected.agencia){
-                SGAgencia.$new($scope.combo.selected.agencia.id).$getTrabajadores($scope.filterOptions).then(function(response){
-                    $scope.gridOptions.data = response;
-                    angular.forEach($scope.gridOptions.data, function(row){
-                        row.persona = SGPersonaNatural.$findByTipoNumeroDocumento(row.tipoDocumento, row.numeroDocumento).$object;
-                    });
-                });
+                SGTrabajador.$search(angular.extend({sucursal: $scope.combo.selected.sucursal.denominacion, agencia: $scope.combo.selected.agencia.denominacion}, $scope.filterOptions)).then(
+                    function(response) {
+                        $scope.gridOptions.data = response;
+                        angular.forEach($scope.gridOptions.data, function (row) {
+                            row.persona = SGPersonaNatural.$findByTipoNumeroDocumento(row.tipoDocumento, row.numeroDocumento).$object;
+                        });
+                    }
+                );
             }
         };
 

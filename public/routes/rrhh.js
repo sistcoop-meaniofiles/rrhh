@@ -162,7 +162,7 @@ angular.module('mean.rrhh').config(['$stateProvider', '$urlRouterProvider',
                 controller: 'Rrhh.CrearTrabajadorController',
                 resolve: {
                     loggedin: function ($q, $timeout, $http, $location, Auth) {
-                        return checkUserRole('ADMIN', $q, $timeout, $http, $location, Auth)
+                        return checkUserRole('ver-trabajadores', $q, $timeout, $http, $location, Auth)
                     }
                 }
             })
