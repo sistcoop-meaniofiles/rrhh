@@ -15,12 +15,12 @@ angular.module('mean.rrhh').controller('Rrhh.BuscarSucursalController', function
         enableRowHeaderSelection: false,
         multiSelect: false,
         columnDefs: [
-            {field: 'denominacion', displayName: 'Denominacion', width: '80%'},
+            {field: 'denominacion', displayName: 'Denominacion', width: '90%'},
             {
                 name: 'edit',
                 displayName: 'Edit',
                 cellTemplate: '<div style="text-align: center; padding-top: 4px;"><button type="button" ng-click="grid.appScope.gridActions.edit(row.entity)" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-edit"></span>Editar</button></div>',
-                width: '20%'
+                width: '10%'
             }
         ]
     };

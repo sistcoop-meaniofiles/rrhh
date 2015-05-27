@@ -9,7 +9,7 @@ angular.module('mean.rrhh').controller('Rrhh.EditarSucursalController', function
 
     $scope.eliminar = function(){
 
-        SGDialog.confirm('Eliminar', '¿Estas seguro de querer eliminar la sucursal?', function(){
+        SGDialog.confirmDelete($scope.view.sucursal.denominacion, 'sucursal', function(){
             $scope.view.sucursal.$remove().then(
                 function(response){
                     toastr.success('Sucursal eliminada');

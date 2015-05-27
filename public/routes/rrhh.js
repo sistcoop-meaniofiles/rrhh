@@ -115,7 +115,7 @@ angular.module('mean.rrhh').config(['$stateProvider', '$urlRouterProvider',
                 controller: 'Rrhh.BuscarAgenciaController',
                 resolve: {
                     loggedin: function ($q, $timeout, $http, $location, Auth) {
-                        return checkUserRole('ver-agencias', $q, $timeout, $http, $location, Auth)
+                        return checkUserRole('ver-sucursales', $q, $timeout, $http, $location, Auth)
                     }
                 }
             })
@@ -125,7 +125,7 @@ angular.module('mean.rrhh').config(['$stateProvider', '$urlRouterProvider',
                 controller: 'Rrhh.CrearAgenciaController',
                 resolve: {
                     loggedin: function ($q, $timeout, $http, $location, Auth) {
-                        return checkUserRole('administrar-agencias', $q, $timeout, $http, $location, Auth)
+                        return checkUserRole('ver-sucursales', $q, $timeout, $http, $location, Auth)
                     }
                 }
             })
@@ -135,13 +135,16 @@ angular.module('mean.rrhh').config(['$stateProvider', '$urlRouterProvider',
                 controller: 'Rrhh.EditarAgenciaController',
                 resolve: {
                     loggedin: function ($q, $timeout, $http, $location, Auth) {
-                        return checkUserRole('administrar-agencias', $q, $timeout, $http, $location, Auth)
+                        return checkUserRole('ver-sucursales', $q, $timeout, $http, $location, Auth)
                     },
                     agencia: function ($state, $stateParams, sucursal, SGAgencia) {
                         return SGAgencia.$find(sucursal.denominacion, $stateParams.agencia);
                     }
                 }
             })
+
+
+
 
             .state('rrhh.app.rrhh.buscarTrabajadores', {
                 url: '/buscarTrabajador',

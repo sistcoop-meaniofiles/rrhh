@@ -19,6 +19,7 @@ angular.module('mean.rrhh').controller('Rrhh.EditarAgenciaController', function 
         $scope.view.agenciaDB.$save(sucursal.denominacion, $scope.view.agencia).then(
             function (response) {
                 toastr.success('Agencia actualizada');
+                $state.go('^.editarAgencia', {agencia: $scope.view.agencia.denominacion});
             },
             function error(err) {
                 toastr.error(err.data.message);

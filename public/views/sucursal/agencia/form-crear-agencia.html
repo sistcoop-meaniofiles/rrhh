@@ -1,8 +1,8 @@
-<h1>Crear agencia</h1>
+<h2>Crear agencia</h2>
 
 <form name="form" sg-read-only="!access.administrarAgencias" class="form-horizontal" novalidate>
     <div class="form-group" ng-class="{ 'has-error' : form.denominacion.$invalid && form.denominacion.$dirty }">
-        <label class="col-sm-2 control-label">Denominacion:</label>
+        <label class="col-sm-2 control-label"><span class="required">*</span> Denominacion:</label>
         <div class="col-sm-3">
             <input type="text" name="denominacion" ng-model="view.agencia.denominacion" ng-maxlength="60" class="form-control" autofocus required/>
             <div ng-messages="form.denominacion.$error" ng-if="form.denominacion.$dirty">
@@ -14,13 +14,13 @@
     <div class="form-group" ng-class="{ 'has-error' : form.direccion.$invalid && form.direccion.$dirty }">
         <label class="col-sm-2 control-label">Direccion:</label>
         <div class="col-sm-6">
-            <input type="text" name="direccion" ng-model="view.agencia.direccion" class="form-control" required/>
+            <input type="text" name="direccion" ng-model="view.agencia.direccion" class="form-control"/>
             <div ng-messages="form.direccion.$error" ng-if="form.direccion.$dirty">
                 <div class="has-error" ng-message="required">Ingrese direccion.</div>
             </div>
         </div>
     </div>
-    <sg-ubigeo name="ubigeo" ng-model="view.agencia.ubigeo" form-layout="horizontal" requerido="true">
+    <sg-ubigeo name="ubigeo" ng-model="view.agencia.ubigeo" form-layout="horizontal">
     </sg-ubigeo>
     <div class="form-group" ng-class="{ 'has-error' : form.ubigeo.$invalid }" style="margin-top: -10px;">
         <div ng-messages="form.ubigeo.$error" ng-if="form.ubigeo.$dirty || form.$submitted">
