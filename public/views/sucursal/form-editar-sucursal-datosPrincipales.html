@@ -1,37 +1,19 @@
-<form name="form" sg-read-only="!access.administrarSucursales" novalidate>
-
-    <h4><strong>Datos principales</strong></h4>
-    <div class="row">
+<form name="form" sg-read-only="!access.administrarSucursales" class="form-horizontal" novalidate>
+    <div class="form-group" ng-class="{ 'has-error' : form.denominacion.$invalid && form.denominacion.$dirty}">
+        <label class="col-sm-2 control-label"><span class="required">*</span> Denominacion:</label>
         <div class="col-sm-4">
-            <div class="form-group" ng-class="{ 'has-error' : form.abreviatura.$invalid && form.abreviatura.$dirty}">
-                <label>Abreviatura</label>
-                <input type="text" name="abreviatura" ng-model="view.sucursal.abreviatura" sg-abreviatura-sucursal-validate sg-exclude="view.sucursal" ng-maxlength="30" class="form-control" autofocus required/>
-                <div ng-messages="form.abreviatura.$error" ng-if="form.abreviatura.$dirty">
-                    <div class="has-error" ng-message="required">Ingrese abreviatura.</div>
-                    <div class="has-error" ng-message="maxlength">Maximo 30 caracteres.</div>
-                    <div class="has-error" ng-message="disponible">Abreviatura no disponible.</div>
-                    <span ng-show="form.denominacion.$pending" us-spinner="{radius:4,width:1,length: 2,top: '56%',left: '89.8%', className: 'spinner-xs'}"></span>
-                </div>
+            <input type="text" name="denominacion" ng-model="view.sucursal.denominacion" sg-denominacion-sucursal-validate sg-exclude="view.sucursal" ng-maxlength="60" class="form-control" autofocus required/>
+            <div ng-messages="form.denominacion.$error" ng-if="form.denominacion.$dirty">
+                <div class="has-error" ng-message="required">Ingrese denominacion.</div>
+                <div class="has-error" ng-message="maxlength">Maximo 60 caracteres.</div>
+                <div class="has-error" ng-message="disponible">Denominacion no disponible.</div>
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-sm-4">
-            <div class="form-group" ng-class="{ 'has-error' : form.denominacion.$invalid && form.denominacion.$dirty }">
-                <label>Denominacion</label>
-                <input type="text" name="denominacion" ng-model="view.sucursal.denominacion" sg-denominacion-sucursal-validate sg-exclude="view.sucursal" ng-maxlength="60" class="form-control" required/>
-                <div ng-messages="form.denominacion.$error" ng-if="form.denominacion.$dirty">
-                    <div class="has-error" ng-message="required">Ingrese denominacion.</div>
-                    <div class="has-error" ng-message="maxlength">Maximo 60 caracteres.</div>
-                    <div class="has-error" ng-message="disponible">Denominacion no disponible.</div>
-                </div>
-                <span ng-show="form.denominacion.$pending" us-spinner="{radius:4,width:1,length: 2,top: '56%',left: '89.8%', className: 'spinner-xs'}"></span>
-            </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button sg-save>Guardar</button>
+            <button sg-cancel ui-sref="^.resumen">Cancelar</button>
         </div>
     </div>
-    <p>
-        <button sg-save ladda="control.block">Guardar</button>
-        <button sg-cancel ui-sref="^.resumen">Cancelar</button>
-    </p>
-
 </form>

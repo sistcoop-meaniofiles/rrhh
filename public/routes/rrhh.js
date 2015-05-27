@@ -39,7 +39,7 @@ angular.module('mean.rrhh').config(['$stateProvider', '$urlRouterProvider',
             })
 
             .state('rrhh.app', {
-                url: '/:sucursal/app',
+                url: '/app',
                 templateUrl: 'rrhh/views/app.html'
             })
 
@@ -73,14 +73,14 @@ angular.module('mean.rrhh').config(['$stateProvider', '$urlRouterProvider',
                 }
             })
             .state('rrhh.app.organizacion.editarSucursal', {
-                url: '/sucursal/:id',
+                url: '/sucursal/:denominacion',
                 templateUrl: 'rrhh/views/sucursal/form-editar-sucursal.html',
                 resolve: {
                     loggedin: function ($q, $timeout, $http, $location, Auth) {
                         return checkUserRole('ver-sucursales', $q, $timeout, $http, $location, Auth)
                     },
                     sucursal: function ($state, $stateParams, SGSucursal) {
-                        return SGSucursal.$find($stateParams.id);
+                        return SGSucursal.$find($stateParams.denominacion);
                     }
                 },
                 controller: 'Rrhh.EditarSucursalController'

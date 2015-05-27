@@ -21,25 +21,6 @@ angular.module('mean.rrhh').controller('RrhhController', function ($state, $stat
         return false;
     }
 
-    $scope.session = {
-        idSucursal: undefined
-    };
-
-    $scope.loadSession = function () {
-
-        var realmAccess = Auth.authz.realmAccess;
-        var roles = realmAccess.roles;
-
-        //cargar la sucursal por defecto del usuario
-        if (roles.indexOf('ADMIN') != -1) {
-            $scope.session.idSucursal = 'master';
-        } else {
-            $scope.session.idSucursal = 1;
-        }
-
-    };
-    $scope.loadSession();
-
     $scope.access = {
 
         get createRealm() {
@@ -78,7 +59,6 @@ angular.module('mean.rrhh').controller('RrhhController', function ($state, $stat
         get elminarTrabajadores() {
             return getAccess('elminar-trabajadores');
         }
-
 
     };
 

@@ -15,12 +15,12 @@ angular.module('mean.rrhh').controller('Rrhh.BuscarSucursalController', function
         enableRowHeaderSelection: false,
         multiSelect: false,
         columnDefs: [
-            {field: 'denominacion', displayName: 'Denominacion'},
-            {field: 'estado', cellFilter: 'si_no : "activo" | uppercase', displayName: 'Estado'},
+            {field: 'denominacion', displayName: 'Denominacion', width: '80%'},
             {
                 name: 'edit',
                 displayName: 'Edit',
-                cellTemplate: '<div style="text-align: center; padding-top: 4px;"><button type="button" ng-click="grid.appScope.gridActions.edit(row.entity)" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-edit"></span>Editar</button></div>'
+                cellTemplate: '<div style="text-align: center; padding-top: 4px;"><button type="button" ng-click="grid.appScope.gridActions.edit(row.entity)" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-edit"></span>Editar</button></div>',
+                width: '20%'
             }
         ]
     };
@@ -31,7 +31,7 @@ angular.module('mean.rrhh').controller('Rrhh.BuscarSucursalController', function
 
     $scope.gridActions = {
         edit: function(row){
-            $state.go('^.editarSucursal.resumen', {id: row.id});
+            $state.go('^.editarSucursal.resumen', {denominacion: row.denominacion});
         }
     };
 
