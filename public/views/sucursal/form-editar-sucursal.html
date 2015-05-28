@@ -16,13 +16,11 @@
                             Agencias
                         </a>
                     </li>
-                    <li class="pull-right">
+                    <li class="pull-right" ng-if="access.administrarSucursales">
                         <div class="btn-group">
-
-                            <form name="form" data-ng-submit="eliminar()" sg-read-only="!access.administrarSucursales" novalidate>
+                            <form name="form" data-ng-submit="eliminar()" novalidate>
                                 <button sg-delete>Eliminar</button>
                             </form>
-
                         </div>
                     </li>
                 </ul>

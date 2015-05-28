@@ -31,31 +31,19 @@ angular.module('mean.rrhh').controller('RrhhController', function ($state, $stat
         get verSucursales() {
             return getAccess('ver-sucursales');
         },
-        get verAgencias() {
-            return getAccess('ver-agencias')
-        },
-
-
         get verTrabajadores() {
             return getAccess('ver-trabajadores')
         },
+
+
         get administrarSucursales() {
             return getAccess('administrar-sucursales');
-        },
-        get administrarAgencias() {
-            return getAccess('administrar-agencias');
         },
         get administrarTrabajadores() {
             return getAccess('administrar-trabajadores');
         },
 
 
-        get elminarSucursales() {
-            return getAccess('elminar-sucursales');
-        },
-        get elminarAgencias() {
-            return getAccess('elminar-agencias');
-        },
         get elminarTrabajadores() {
             return getAccess('elminar-trabajadores');
         }

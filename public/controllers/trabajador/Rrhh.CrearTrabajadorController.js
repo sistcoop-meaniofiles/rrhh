@@ -2,7 +2,7 @@
 
 /* jshint -W098 */
 angular.module('mean.rrhh').controller('Rrhh.CrearTrabajadorController', function(
-    $scope, $state, SGSucursal, SGAgencia, SGTrabajador, SGPersonaNatural, SGTipoDocumento, toastr){
+    $scope, $state, sucursales, agencias, SGSucursal, SGAgencia, SGTrabajador, SGPersonaNatural, SGTipoDocumento, toastr){
 
     $scope.view = {
         trabajador: SGTrabajador.$build()
@@ -26,12 +26,20 @@ angular.module('mean.rrhh').controller('Rrhh.CrearTrabajadorController', functio
 
     $scope.loadCombo = function() {
         $scope.combo.tipoDocumento = SGTipoDocumento.$search({tipoPersona: 'natural'}).$object;
-        $scope.combo.sucursal = SGSucursal.$search().$object;
-        $scope.$watch('combo.selected.sucursal', function(){
-            if(angular.isDefined($scope.combo.selected.sucursal)){
-                $scope.combo.agencia = $scope.combo.selected.sucursal.$getAgencias().$object;
-            }
-        }, true);
+        if (angular.isArray(sucursales)) {
+            $scope.combo.sucursal = sucursales;
+            $scope.$watch('combo.selected.sucursal', function () {
+                if (angular.isDefined($scope.combo.selected.sucursal)) {
+                    $scope.combo.agencia = $scope.combo.selected.sucursal.$getAgencias().$object;
+                }
+            }, true);
+        } else {
+            $scope.combo.sucursal = [sucursales];
+            $scope.combo.agencia = [agencias];
+
+            $scope.combo.selected.sucursal = sucursales;
+            $scope.combo.selected.agencia = agencias;
+        }
     };
     $scope.loadCombo();
 
@@ -50,7 +58,7 @@ angular.module('mean.rrhh').controller('Rrhh.CrearTrabajadorController', functio
         $scope.view.loaded.trabajador = SGTrabajador.$findByTipoNumeroDocumento($scope.combo.selected.tipoDocumento.abreviatura, $scope.view.trabajador.numeroDocumento).$object;
     };
 
-    $scope.submit = function(){
+    $scope.save = function(){
         if ($scope.form.$valid) {
             if(angular.isUndefined($scope.view.loaded.persona)){
                 toastr.warning('Debe de seleccionar una persona.');

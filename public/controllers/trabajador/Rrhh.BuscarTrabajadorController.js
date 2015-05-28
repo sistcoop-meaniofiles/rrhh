@@ -1,8 +1,8 @@
 'use strict';
 
 /* jshint -W098 */
-angular.module('mean.rrhh').controller('Rrhh.BuscarTrabajadorController', function(
-        $scope, $state, SGSucursal, SGAgencia, SGTrabajador, SGPersonaNatural) {
+angular.module('mean.rrhh').controller('Rrhh.BuscarTrabajadorController',
+    function ($scope, $state, sucursales, agencias, SGSucursal, SGAgencia, SGTrabajador, SGPersonaNatural) {
 
         $scope.combo = {
             sucursal: undefined,
@@ -13,13 +13,21 @@ angular.module('mean.rrhh').controller('Rrhh.BuscarTrabajadorController', functi
             agencia: undefined
         };
 
-        $scope.loadCombo = function(){
-            $scope.combo.sucursal = SGSucursal.$search().$object;
-            $scope.$watch('combo.selected.sucursal', function(){
-                if(angular.isDefined($scope.combo.selected.sucursal)){
-                    $scope.combo.agencia = $scope.combo.selected.sucursal.$getAgencias().$object;
-                }
-            }, true);
+        $scope.loadCombo = function () {
+            if (angular.isArray(sucursales)) {
+                $scope.combo.sucursal = sucursales;
+                $scope.$watch('combo.selected.sucursal', function () {
+                    if (angular.isDefined($scope.combo.selected.sucursal)) {
+                        $scope.combo.agencia = $scope.combo.selected.sucursal.$getAgencias().$object;
+                    }
+                }, true);
+            } else {
+                $scope.combo.sucursal = [sucursales];
+                $scope.combo.agencia = [agencias];
+
+                $scope.combo.selected.sucursal = sucursales;
+                $scope.combo.selected.agencia = agencias;
+            }
         };
         $scope.loadCombo();
 
@@ -49,10 +57,13 @@ angular.module('mean.rrhh').controller('Rrhh.BuscarTrabajadorController', functi
             ]
         };
 
-        $scope.search = function(){
-            if($scope.combo.selected.sucursal && $scope.combo.selected.agencia){
-                SGTrabajador.$search(angular.extend({sucursal: $scope.combo.selected.sucursal.denominacion, agencia: $scope.combo.selected.agencia.denominacion}, $scope.filterOptions)).then(
-                    function(response) {
+        $scope.search = function () {
+            if ($scope.combo.selected.sucursal && $scope.combo.selected.agencia) {
+                SGTrabajador.$search(angular.extend({
+                    sucursal: $scope.combo.selected.sucursal.denominacion,
+                    agencia: $scope.combo.selected.agencia.denominacion
+                }, $scope.filterOptions)).then(
+                    function (response) {
                         $scope.gridOptions.data = response;
                         angular.forEach($scope.gridOptions.data, function (row) {
                             row.persona = SGPersonaNatural.$findByTipoNumeroDocumento(row.tipoDocumento, row.numeroDocumento).$object;
@@ -62,12 +73,12 @@ angular.module('mean.rrhh').controller('Rrhh.BuscarTrabajadorController', functi
             }
         };
 
-        $scope.nuevo = function(){
+        $scope.nuevo = function () {
             $state.go('^.crearTrabajador');
         };
 
         $scope.gridActions = {
-            edit: function(row){
+            edit: function (row) {
                 $state.go('^.editarTrabajador.resumen', {id: row.id});
             }
         };

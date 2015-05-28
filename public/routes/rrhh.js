@@ -24,6 +24,29 @@ angular.module('mean.rrhh').config(['$stateProvider', '$urlRouterProvider',
             return deferred.promise;
         };
 
+        // Get session sucursal
+        var getSucursalesSession = function (Auth, SGSucursal) {
+            // Admin
+            if (Auth.sistcoop.hasAdminRole()) {
+                return SGSucursal.$search();
+            }
+            // Not Admin
+            else {
+                return SGSucursal.$find(Auth.sistcoop.sucursal);
+            }
+        };
+        // Get session agencia
+        var getAgenciasSession = function (Auth, SGAgencia) {
+            // Admin
+            if (Auth.sistcoop.hasAdminRole()) {
+                return undefined;
+            }
+            // Not Admin
+            else {
+                return SGAgencia.$find(Auth.sistcoop.sucursal, Auth.sistcoop.agencia);
+            }
+        };
+
         $urlRouterProvider.when('/rrhh', '/rrhh/config');
 
         $stateProvider
@@ -143,9 +166,6 @@ angular.module('mean.rrhh').config(['$stateProvider', '$urlRouterProvider',
                 }
             })
 
-
-
-
             .state('rrhh.app.rrhh.buscarTrabajadores', {
                 url: '/buscarTrabajador',
                 templateUrl: 'rrhh/views/trabajador/form-buscar-trabajador.html',
@@ -153,6 +173,12 @@ angular.module('mean.rrhh').config(['$stateProvider', '$urlRouterProvider',
                 resolve: {
                     loggedin: function ($q, $timeout, $http, $location, Auth) {
                         return checkUserRole('ver-trabajadores', $q, $timeout, $http, $location, Auth)
+                    },
+                    sucursales: function(Auth, SGSucursal){
+                        return getSucursalesSession(Auth, SGSucursal);
+                    },
+                    agencias: function(Auth, SGAgencia){
+                        return getAgenciasSession(Auth, SGAgencia);
                     }
                 }
             })
@@ -163,6 +189,12 @@ angular.module('mean.rrhh').config(['$stateProvider', '$urlRouterProvider',
                 resolve: {
                     loggedin: function ($q, $timeout, $http, $location, Auth) {
                         return checkUserRole('ver-trabajadores', $q, $timeout, $http, $location, Auth)
+                    },
+                    sucursales: function(Auth, SGSucursal){
+                        return getSucursalesSession(Auth, SGSucursal);
+                    },
+                    agencias: function(Auth, SGAgencia){
+                        return getAgenciasSession(Auth, SGAgencia);
                     }
                 }
             })
