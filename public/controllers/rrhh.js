@@ -42,6 +42,9 @@ angular.module('mean.rrhh').controller('RrhhController', function ($state, $stat
         get administrarTrabajadores() {
             return getAccess('administrar-trabajadores');
         },
+        get administrarTrabajadoresAgencia() {
+            return getAccess('administrar-trabajadores-agencia');
+        },
 
 
         get elminarTrabajadores() {

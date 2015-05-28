@@ -2,17 +2,14 @@
 
 /* jshint -W098 */
 angular.module('mean.rrhh').controller('Rrhh.EditarTrabajador.DatosPrincipalesController',
-    function($scope, trabajador, SGPersonaNatural, SGSucursal, SGAgencia, toastr) {
+    function($scope, trabajador, sucursales, agencias, SGPersonaNatural, SGAgencia, toastr) {
 
         $scope.view = {
             trabajador: trabajador
         };
 
         $scope.view.loaded = {
-            persona: undefined,
-            sucursal: undefined,
-            agencia: undefined,
-            id : 2
+            persona: undefined
         };
 
         $scope.combo = {
@@ -25,13 +22,20 @@ angular.module('mean.rrhh').controller('Rrhh.EditarTrabajador.DatosPrincipalesCo
         };
 
         $scope.loadCombo = function() {
-            $scope.combo.sucursal = SGSucursal.$search().$object;
-            $scope.$watch('combo.selected.sucursal', function(){
-                if(angular.isDefined($scope.combo.selected.sucursal)){
-                    $scope.combo.agencia = $scope.combo.selected.sucursal.$getAgencias().$object;
-                    $scope.combo.selected.agencia = undefined;
-                }
-            }, true);
+            if (angular.isArray(sucursales)) {
+                $scope.combo.sucursal = sucursales;
+                $scope.$watch('combo.selected.sucursal', function () {
+                    if (angular.isDefined($scope.combo.selected.sucursal)) {
+                        $scope.combo.agencia = $scope.combo.selected.sucursal.$getAgencias().$object;
+                    }
+                }, true);
+            } else {
+                $scope.combo.sucursal = [sucursales];
+                $scope.combo.agencia = [agencias];
+
+                $scope.combo.selected.sucursal = sucursales;
+                $scope.combo.selected.agencia = agencias;
+            }
         };
         $scope.loadCombo();
 
@@ -42,40 +46,29 @@ angular.module('mean.rrhh').controller('Rrhh.EditarTrabajador.DatosPrincipalesCo
         };
         $scope.loadPersona();
 
-        $scope.loadAgenciaSucursal = function(){
-            var agenciaId = $scope.view.trabajador.agencia.id;
-            SGAgencia.$find(agenciaId).then(function(response){
-                $scope.view.loaded.agencia = response;
-                $scope.view.loaded.sucursal = response.sucursal;
-            });
-        };
-        $scope.loadAgenciaSucursal();
+        $scope.save = function(){
 
-        $scope.submit = function(){
-
-            if ($scope.form.$valid) {
-
-                var trabajajador = {};
-                angular.extend( trabajajador,
-                    $scope.view.trabajador,
-                    {
-                        agencia: {
-                            id: $scope.combo.selected.agencia.id,
-                            codigo: $scope.combo.selected.agencia.codigo
+            var trabajajador = {};
+            angular.extend( trabajajador,
+                $scope.view.trabajador,
+                {
+                    agencia: {
+                        denominacion: $scope.combo.selected.agencia.denominacion,
+                        sucursal: {
+                            denominacion: $scope.combo.selected.sucursal.denominacion
                         }
                     }
-                );
+                }
+            );
 
-                trabajajador.$save().then(
-                    function(response){
-                        toastr.success('Trabajador actualizado satisfactoriamente');
-                    },
-                    function error(err){
-                        toastr.error(err.data.message);
-                    }
-                );
-
-            }
+            trabajajador.$save().then(
+                function(response){
+                    toastr.success('Trabajador actualizado satisfactoriamente');
+                },
+                function error(err){
+                    toastr.error(err.data.message);
+                }
+            );
 
         };
 

@@ -2,7 +2,7 @@
 
 /* jshint -W098 */
 angular.module('mean.rrhh').controller('Rrhh.CrearTrabajadorController', function(
-    $scope, $state, sucursales, agencias, SGSucursal, SGAgencia, SGTrabajador, SGPersonaNatural, SGTipoDocumento, toastr){
+    $scope, $state, sucursales, agencias, SGTrabajador, SGPersonaNatural, SGTipoDocumento, toastr){
 
     $scope.view = {
         trabajador: SGTrabajador.$build()
@@ -59,27 +59,35 @@ angular.module('mean.rrhh').controller('Rrhh.CrearTrabajadorController', functio
     };
 
     $scope.save = function(){
-        if ($scope.form.$valid) {
-            if(angular.isUndefined($scope.view.loaded.persona)){
-                toastr.warning('Debe de seleccionar una persona.');
-                return;
-            }
-            if(angular.isDefined($scope.view.loaded.trabajador.id)){
-                toastr.warning('El trabajador ya fue registrado, no puede continuar.');
-                return;
-            }
 
-            $scope.view.trabajador.tipoDocumento = $scope.combo.selected.tipoDocumento.abreviatura;
-            SGAgencia.$new($scope.combo.selected.agencia.id).$addTrabajador($scope.view.trabajador).then(
-                function(response){
-                    toastr.success('Trabajador creado');
-                    $state.go('^.editarTrabajador.resumen', {id: angular.isObject(response) ? response.id : response});
-                },
-                function error(err){
-                    toastr.error(err.data.message);
-                }
-            );
+        if(angular.isUndefined($scope.view.loaded.persona)){
+            toastr.warning('Debe de seleccionar una persona.');
+            return;
         }
+        if(angular.isDefined($scope.view.loaded.trabajador.id)){
+            toastr.warning('El trabajador ya fue registrado, no puede continuar.');
+            return;
+        }
+
+        var trabajador = angular.copy($scope.view.trabajador);
+        trabajador.tipoDocumento = $scope.combo.selected.tipoDocumento.abreviatura;
+        trabajador.agencia = {
+            denominacion: $scope.combo.selected.agencia.denominacion,
+            sucursal: {
+                denominacion: $scope.combo.selected.agencia.sucursal.denominacion
+            }
+        };
+
+        trabajador.$save().then(
+            function(response){
+                toastr.success('Trabajador creado');
+                $state.go('^.editarTrabajador.resumen', {id: response.id});
+            },
+            function error(err){
+                toastr.error(err.data.message);
+            }
+        );
+
     };
 
 });

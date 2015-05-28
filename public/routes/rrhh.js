@@ -3,6 +3,8 @@
 angular.module('mean.rrhh').config(['$stateProvider', '$urlRouterProvider',
     function ($stateProvider, $urlRouterProvider) {
 
+        var moduleName = 'rrhh';
+
         // Check if user has role
         var checkUserRole = function (role, $q, $timeout, $http, $location, Auth) {
 
@@ -10,7 +12,7 @@ angular.module('mean.rrhh').config(['$stateProvider', '$urlRouterProvider',
             var deferred = $q.defer();
 
             // Authenticated
-            if (Auth.authz.hasResourceRole(role, 'rrhh')) {
+            if (Auth.authz.hasResourceRole(role, moduleName)) {
                 $timeout(deferred.resolve);
             }
 
@@ -25,25 +27,23 @@ angular.module('mean.rrhh').config(['$stateProvider', '$urlRouterProvider',
         };
 
         // Get session sucursal
-        var getSucursalesSession = function (Auth, SGSucursal) {
-            // Admin
-            if (Auth.sistcoop.hasAdminRole()) {
+        var getSucursalesAutorizadasParaAdministrarTrabajadores = function ($q, $timeout, $http, $location, Auth, SGSucursal) {
+            if (Auth.authz.hasResourceRole('administrar-trabajadores', moduleName)) {
                 return SGSucursal.$search();
-            }
-            // Not Admin
-            else {
+            } else if(Auth.authz.hasResourceRole('administrar-trabajadores-agencia', moduleName)){
                 return SGSucursal.$find(Auth.sistcoop.sucursal);
+            } else {
+                return undefined;
             }
         };
         // Get session agencia
-        var getAgenciasSession = function (Auth, SGAgencia) {
-            // Admin
-            if (Auth.sistcoop.hasAdminRole()) {
+        var getAgenciasAutorizadasParaAdministrarTrabajadores = function ($q, $timeout, $http, $location, Auth, SGAgencia) {
+            if (Auth.authz.hasResourceRole('administrar-trabajadores', moduleName)) {
                 return undefined;
-            }
-            // Not Admin
-            else {
+            } else if(Auth.authz.hasResourceRole('administrar-trabajadores-agencia', moduleName)){
                 return SGAgencia.$find(Auth.sistcoop.sucursal, Auth.sistcoop.agencia);
+            } else {
+                return undefined;
             }
         };
 
@@ -174,11 +174,11 @@ angular.module('mean.rrhh').config(['$stateProvider', '$urlRouterProvider',
                     loggedin: function ($q, $timeout, $http, $location, Auth) {
                         return checkUserRole('ver-trabajadores', $q, $timeout, $http, $location, Auth)
                     },
-                    sucursales: function(Auth, SGSucursal){
-                        return getSucursalesSession(Auth, SGSucursal);
+                    sucursales: function($q, $timeout, $http, $location, Auth, SGSucursal){
+                        return getSucursalesAutorizadasParaAdministrarTrabajadores($q, $timeout, $http, $location, Auth, SGSucursal);
                     },
-                    agencias: function(Auth, SGAgencia){
-                        return getAgenciasSession(Auth, SGAgencia);
+                    agencias: function($q, $timeout, $http, $location, Auth, SGAgencia){
+                        return getAgenciasAutorizadasParaAdministrarTrabajadores($q, $timeout, $http, $location, Auth, SGAgencia);
                     }
                 }
             })
@@ -190,11 +190,11 @@ angular.module('mean.rrhh').config(['$stateProvider', '$urlRouterProvider',
                     loggedin: function ($q, $timeout, $http, $location, Auth) {
                         return checkUserRole('ver-trabajadores', $q, $timeout, $http, $location, Auth)
                     },
-                    sucursales: function(Auth, SGSucursal){
-                        return getSucursalesSession(Auth, SGSucursal);
+                    sucursales: function($q, $timeout, $http, $location, Auth, SGSucursal){
+                        return getSucursalesAutorizadasParaAdministrarTrabajadores($q, $timeout, $http, $location, Auth, SGSucursal);
                     },
-                    agencias: function(Auth, SGAgencia){
-                        return getAgenciasSession(Auth, SGAgencia);
+                    agencias: function($q, $timeout, $http, $location, Auth, SGAgencia){
+                        return getAgenciasAutorizadasParaAdministrarTrabajadores($q, $timeout, $http, $location, Auth, SGAgencia);
                     }
                 }
             })
@@ -203,7 +203,7 @@ angular.module('mean.rrhh').config(['$stateProvider', '$urlRouterProvider',
                 templateUrl: 'rrhh/views/trabajador/form-editar-trabajador.html',
                 resolve: {
                     loggedin: function ($q, $timeout, $http, $location, Auth) {
-                        return checkUserRole('PUBLIC', $q, $timeout, $http, $location, Auth)
+                        return checkUserRole('ver-trabajadores', $q, $timeout, $http, $location, Auth)
                     },
                     trabajador: function ($state, $stateParams, SGTrabajador) {
                         return SGTrabajador.$find($stateParams.id);
@@ -217,7 +217,7 @@ angular.module('mean.rrhh').config(['$stateProvider', '$urlRouterProvider',
                 controller: 'Rrhh.EditarTrabajador.ResumenController',
                 resolve: {
                     loggedin: function ($q, $timeout, $http, $location, Auth) {
-                        return checkUserRole('PUBLIC', $q, $timeout, $http, $location, Auth)
+                        return checkUserRole('ver-trabajadores', $q, $timeout, $http, $location, Auth)
                     }
                 }
             })
@@ -227,7 +227,13 @@ angular.module('mean.rrhh').config(['$stateProvider', '$urlRouterProvider',
                 controller: 'Rrhh.EditarTrabajador.DatosPrincipalesController',
                 resolve: {
                     loggedin: function ($q, $timeout, $http, $location, Auth) {
-                        return checkUserRole('ADMIN', $q, $timeout, $http, $location, Auth)
+                        return checkUserRole('ver-trabajadores', $q, $timeout, $http, $location, Auth)
+                    },
+                    sucursales: function($q, $timeout, $http, $location, Auth, SGSucursal){
+                        return getSucursalesAutorizadasParaAdministrarTrabajadores($q, $timeout, $http, $location, Auth, SGSucursal);
+                    },
+                    agencias: function($q, $timeout, $http, $location, Auth, SGAgencia){
+                        return getAgenciasAutorizadasParaAdministrarTrabajadores($q, $timeout, $http, $location, Auth, SGAgencia);
                     }
                 }
             })
@@ -237,7 +243,7 @@ angular.module('mean.rrhh').config(['$stateProvider', '$urlRouterProvider',
                 controller: 'Rrhh.EditarTrabajador.AccesoSistemaController',
                 resolve: {
                     loggedin: function ($q, $timeout, $http, $location, Auth) {
-                        return checkUserRole('ADMIN', $q, $timeout, $http, $location, Auth)
+                        return checkUserRole('ver-trabajadores', $q, $timeout, $http, $location, Auth)
                     }
                 }
             });

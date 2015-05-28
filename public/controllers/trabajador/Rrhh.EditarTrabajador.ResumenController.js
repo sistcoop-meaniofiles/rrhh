@@ -1,6 +1,7 @@
 'use strict';
 
 /* jshint -W098 */
+
 angular.module('mean.rrhh').controller('Rrhh.EditarTrabajador.ResumenController', function(
     $scope, trabajador, SGAgencia, SGPersonaNatural, SGUsuarioKeycloak){
 
@@ -10,27 +11,19 @@ angular.module('mean.rrhh').controller('Rrhh.EditarTrabajador.ResumenController'
 
     $scope.view.loaded = {
         persona: SGPersonaNatural.$findByTipoNumeroDocumento($scope.view.trabajador.tipoDocumento, $scope.view.trabajador.numeroDocumento).$object,
-        agencia: SGAgencia.$find($scope.view.trabajador.agencia.id).$object,
-        usuarioTrabajador: undefined,
+        agencia: SGAgencia.$find($scope.view.trabajador.agencia.sucursal.denominacion, $scope.view.trabajador.agencia.denominacion).$object,
         userKeycloak: {
             rolesAssigned: []
         }
     };
 
     $scope.loadUsuario = function(){
-        $scope.view.trabajador.$getTrabajadorUsuario().then(function(response){
-
-            //trabajador usuario de sistcoop
-            $scope.view.loaded.usuarioTrabajador = response;
-
-            //Usuario de keycloak, para sacar roles
-            var usuario = $scope.view.loaded.usuarioTrabajador.usuario;
-            SGUsuarioKeycloak.$realmRoles(usuario).then(function(response){
-                for(var i=0; i<response.length; i++){
-                    $scope.view.loaded.userKeycloak.rolesAssigned.push(response[i].name);
-                }
-            });
-
+        //Usuario de keycloak, para sacar roles
+        var usuario = $scope.view.trabajador.usuario;
+        SGUsuarioKeycloak.$realmRoles(usuario).then(function(response){
+            for(var i=0; i<response.length; i++){
+                $scope.view.loaded.userKeycloak.rolesAssigned.push(response[i].name);
+            }
         });
     };
     $scope.loadUsuario();
