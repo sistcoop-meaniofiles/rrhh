@@ -81,7 +81,7 @@ angular.module('mean.rrhh').controller('Rrhh.CrearTrabajadorController', functio
         trabajador.$save().then(
             function(response){
                 toastr.success('Trabajador creado');
-                $state.go('^.editarTrabajador.resumen', {id: response.id});
+                $state.go('^.editarTrabajador.resumen', {idTrabajador: response.id});
             },
             function error(err){
                 toastr.error(err.data.message);

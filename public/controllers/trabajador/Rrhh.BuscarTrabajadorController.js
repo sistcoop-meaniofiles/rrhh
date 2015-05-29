@@ -79,7 +79,7 @@ angular.module('mean.rrhh').controller('Rrhh.BuscarTrabajadorController',
 
         $scope.gridActions = {
             edit: function (row) {
-                $state.go('^.editarTrabajador.resumen', {id: row.id});
+                $state.go('^.editarTrabajador.resumen', {idTrabajador: row.id});
             }
         };
 

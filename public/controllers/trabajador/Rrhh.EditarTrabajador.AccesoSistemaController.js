@@ -44,23 +44,17 @@ angular.module('mean.rrhh').controller('Rrhh.EditarTrabajador.AccesoSistemaContr
             });
         };
 
-        $scope.submit = function(){
-            if ($scope.form.$valid) {
+        $scope.save = function(){
 
-                var trabajadorUsuario = {
-                    usuario: $scope.combo.selected.usuario.username
-                };
-
-                $scope.view.trabajador.$addTrabajadorUsuario(trabajadorUsuario).then(
-                    function(response){
-                        toastr.success('Trabajador actualizado');
-                        $scope.view.loaded.trabajadorUsuario.usuario = $scope.combo.selected.usuario.username;
-                    },
-                    function error(err){
-                        toastr.error(err.data.message);
-                    }
-                );
-            }
+            $scope.view.trabajador.$setUsuario($scope.combo.selected.usuario.username).then(
+                function(response){
+                    toastr.success('Trabajador actualizado');
+                    $scope.view.trabajador.usuario = $scope.combo.selected.usuario.username;
+                },
+                function error(err){
+                    toastr.error(err.data.message);
+                }
+            );
         };
 
     });
