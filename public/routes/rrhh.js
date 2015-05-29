@@ -160,8 +160,8 @@ angular.module('mean.rrhh').config(['$stateProvider', '$urlRouterProvider',
                     loggedin: function ($q, $timeout, $http, $location, Auth) {
                         return checkUserRole('ver-sucursales', $q, $timeout, $http, $location, Auth)
                     },
-                    agencia: function ($state, $stateParams, sucursal, SGAgencia) {
-                        return SGAgencia.$find(sucursal.denominacion, $stateParams.agencia);
+                    agencia: function ($state, $stateParams, sucursal, SGSucursal) {
+                        return SGSucursal.$new($stateParams.sucursal).$findAgencia($stateParams.agencia);
                     }
                 }
             })
@@ -243,7 +243,7 @@ angular.module('mean.rrhh').config(['$stateProvider', '$urlRouterProvider',
                 controller: 'Rrhh.EditarTrabajador.AccesoSistemaController',
                 resolve: {
                     loggedin: function ($q, $timeout, $http, $location, Auth) {
-                        return checkUserRole('ver-trabajadores', $q, $timeout, $http, $location, Auth)
+                        return checkUserRole('administrar-trabajadores', $q, $timeout, $http, $location, Auth)
                     }
                 }
             });

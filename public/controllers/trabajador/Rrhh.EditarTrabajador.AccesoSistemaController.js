@@ -2,14 +2,10 @@
 
 /* jshint -W098 */
 angular.module('mean.rrhh').controller('Rrhh.EditarTrabajador.AccesoSistemaController',
-    function($scope, toastr, trabajador, SGDialog, SGUsuarioKeycloak, SGTrabajadorUsuario){
+    function($scope, toastr, trabajador, SGDialog, SGUsuarioKeycloak){
 
         $scope.view = {
             trabajador: trabajador
-        };
-
-        $scope.view.loaded = {
-            trabajadorUsuario: $scope.view.trabajador.$getTrabajadorUsuario().$object
         };
 
         $scope.combo = {

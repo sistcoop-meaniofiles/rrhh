@@ -1,7 +1,7 @@
 'use strict';
 
 /* jshint -W098 */
-angular.module('mean.rrhh').controller('Rrhh.BuscarAgenciaController', function ($scope, $state, sucursal, SGDialog, SGAgencia, toastr) {
+angular.module('mean.rrhh').controller('Rrhh.BuscarAgenciaController', function ($scope, $state, sucursal, SGDialog, SGSucursal, toastr) {
 
     $scope.view = {
         sucursal: sucursal
@@ -22,7 +22,7 @@ angular.module('mean.rrhh').controller('Rrhh.BuscarAgenciaController', function 
 
     $scope.remove = function (row) {
         SGDialog.confirmDelete(row.denominacion, 'agencia', function(){
-            SGAgencia.$remove($scope.view.sucursal.denominacion, row.denominacion).then(
+            $scope.view.sucursal.$removeAgencia(row.denominacion).then(
                 function(response){
                     toastr.success('Agencia eliminada');
                     $scope.loadAgencias();
